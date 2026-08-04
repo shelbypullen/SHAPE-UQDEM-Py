@@ -1,0 +1,10 @@
+Cores: 10
+Python: /usr/tce/bin/python3
+runtime = 65.127
+timestamp: 2026-08-03_23:05:47
+n_cores: 10
+n_samples: 1
+refinement level 0: c2 = -5.7368, c3 = 9.1053, 
+KE_cost = 0.0636, KE_avg = 0.0636, KE_std = 0.0000
+refinement level 1: c2 = -5.3333, c3 = 8.2593, 
+KE_cost = 0.0646, KE_avg = 0.0646, KE_std = 0.0000
