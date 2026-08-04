@@ -95,7 +95,7 @@ if __name__ == '__main__':
     ############################################################
     refinement_factor = 1.38
     coarse = 20
-    n_steps = 2
+    n_steps = 10
     c_nums = [int(np.round(coarse*(refinement_factor**i))) for i in range(n_steps)]  
 
     ############################################################
