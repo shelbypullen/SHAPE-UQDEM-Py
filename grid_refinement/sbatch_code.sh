@@ -3,11 +3,11 @@
 #SBATCH --output=results_%j.out
 #SBATCH --error=results_%j.err
 #SBATCH --nodes=1
-#SBATCH --ntasks=10
+#SBATCH --ntasks=112
 #SBATCH --cpus-per-task=1
-#SBATCH --time=00:10:00
+#SBATCH --time=01:30:00
 #SBATCH --partition=pbatch
-#SBATCH --mail-type=END
+#SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=spullen@ucsd.edu
 
 cd $SLURM_SUBMIT_DIR

@@ -1,0 +1,26 @@
+Cores: 112
+Python: /usr/tce/bin/python3
+runtime = 1813.077
+timestamp: 2026-08-05_01:52:28
+n_cores: 112
+n_samples: 1
+refinement level 0: c2 = -5.7368, c3 = 9.1053, 
+KE_cost = 0.0636, KE_avg = 0.0636, KE_std = 0.0000
+refinement level 1: c2 = -5.3333, c3 = 8.2593, 
+KE_cost = 0.0646, KE_avg = 0.0646, KE_std = 0.0000
+refinement level 2: c2 = -4.4054, c3 = 4.4054, 
+KE_cost = 0.0504, KE_avg = 0.0504, KE_std = 0.0000
+refinement level 3: c2 = -5.6731, c3 = 9.0769, 
+KE_cost = 0.0358, KE_avg = 0.0358, KE_std = 0.0000
+refinement level 4: c2 = -5.8750, c3 = 9.1667, 
+KE_cost = 0.0519, KE_avg = 0.0519, KE_std = 0.0000
+refinement level 5: c2 = -5.4545, c3 = 8.0707, 
+KE_cost = 0.0422, KE_avg = 0.0422, KE_std = 0.0000
+refinement level 6: c2 = -5.7299, c3 = 9.1752, 
+KE_cost = 0.0357, KE_avg = 0.0357, KE_std = 0.0000
+refinement level 7: c2 = -5.6421, c3 = 9.1053, 
+KE_cost = 0.0349, KE_avg = 0.0349, KE_std = 0.0000
+refinement level 8: c2 = -5.5344, c3 = 6.8779, 
+KE_cost = 0.0323, KE_avg = 0.0323, KE_std = 0.0000
+refinement level 9: c2 = -4.4807, c3 = 4.5967, 
+KE_cost = 0.0323, KE_avg = 0.0323, KE_std = 0.0000
