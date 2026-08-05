@@ -93,7 +93,7 @@ if __name__ == '__main__':
     ############################################################
     # Defining C2 C3 grid coarseness
     ############################################################
-    refinement_factor = 1.38
+    refinement_factor = 1.43                                # so max c_nums = 500 after 10 steps (i=0:9)
     coarse = 20
     n_steps = 10
     c_nums = [int(np.round(coarse*(refinement_factor**i))) for i in range(n_steps)]  
