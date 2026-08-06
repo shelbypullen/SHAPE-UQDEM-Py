@@ -1,0 +1,11 @@
+Cores: 90
+Python: /usr/tce/bin/python3
+runtime = 1857.073
+timestamp: 2026-08-06_09:30:47
+['c2_num: 500', 'c3_num: 500']
+n_cores: 90
+n_samples: 1
+['best c2: -5.68937875751503', 'best c3: 9.725450901803608']
+min KE_avg: 0.034539097197454724
+min KE_std: 0.0
+min KE_cost: 0.034539097197454724
