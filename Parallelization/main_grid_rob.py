@@ -70,8 +70,8 @@ if __name__ == '__main__':
     ############################################################
     # Defining C2 C3 space - CAN CHANGE c2_num, c3_num FOR HIGHER PRECISION
     ############################################################
-    c2_num = 20                                 
-    c3_num = 20
+    c2_num = 500
+    c3_num = 500
     c2_sweep = np.linspace(-10,-1,c2_num)                   # can change ranges
     c3_sweep = np.linspace(1,15,c3_num)                     # can change ranges
 
