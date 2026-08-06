@@ -136,18 +136,18 @@ if __name__ == '__main__':
     # Saving data
     ############################################################
     timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")  # saving the date and time
-    #save_dir = f"results_{timestamp}"
-    #os.makedirs(save_dir, exist_ok=True)
+    save_dir = f"results_{timestamp}"
+    os.makedirs(save_dir, exist_ok=True)
 
     # saving all desired outputs
-    #np.save(os.path.join(save_dir, "KE_avgs.npy"),   KE_avgs)
-    #np.save(os.path.join(save_dir, "KE_stds.npy"),   KE_stds)
-    #np.save(os.path.join(save_dir, "KE_cost.npy"),   KE_cost)
-    #p.save(os.path.join(save_dir, "KE_ratios.npy"), KE_ratios)
+    np.save(os.path.join(save_dir, "KE_avgs.npy"),   KE_avgs)
+    np.save(os.path.join(save_dir, "KE_stds.npy"),   KE_stds)
+    np.save(os.path.join(save_dir, "KE_cost.npy"),   KE_cost)
+    np.save(os.path.join(save_dir, "KE_ratios.npy"), KE_ratios)
 
     # saving coefficient options
-    #np.save(os.path.join(save_dir, "c2_sweep.npy"),  c2_sweep)
-    #np.save(os.path.join(save_dir, "c3_sweep.npy"),  c3_sweep)
+    np.save(os.path.join(save_dir, "c2_sweep.npy"),  c2_sweep)
+    np.save(os.path.join(save_dir, "c3_sweep.npy"),  c3_sweep)
 
     # printing all necessary info to the .out file
     print(f"timestamp: {timestamp}")
