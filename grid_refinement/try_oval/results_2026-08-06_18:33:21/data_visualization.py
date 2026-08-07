@@ -92,7 +92,7 @@ if len(c_nums) > 1:
 
     # save the figure
     plt.tight_layout()
-    file_path_fig1 = os.path.join(script_dir, f"KE_avgs_grid_ref_{len(c_nums)}_steps.png")
+    file_path_fig1 = os.path.join(figure_dir, f"KE_avgs_grid_ref_{len(c_nums)}_steps.png")
     fig1.savefig(file_path_fig1, dpi=300, bbox_inches='tight')
 
 c2s = np.linspace(-10,-1,c_nums[0])
