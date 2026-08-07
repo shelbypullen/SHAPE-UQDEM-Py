@@ -76,4 +76,34 @@ file_path_fig2 = os.path.join(script_dir, f"most_refined_{c_nums[-1]}x{c_nums[-1
 fig2.savefig(file_path_fig2, dpi=300, bbox_inches='tight')
 
 # to see the plot
+
+############################################################
+#
+############################################################
+fig, ax = plt.subplots(1,1)
+
+norm = colors.TwoSlopeNorm(vmin=KE_avgs.min(), vcenter=1, vmax = KE_avgs.max())
+pcm = ax.pcolormesh(c3_sweep, c2_sweep, KE_cost, cmap='RdBu_r',norm=norm)
+
+t = np.linspace(0, 2*np.pi, 1000)
+
+theta = 295*np.pi/180 - np.pi/4
+a = 2
+b = 7
+c = 6
+d = -3.25
+
+# parametric ellipse in rotated frame, then transform back to c2/c3 space
+c3_ellipse = c + a*np.cos(t)*np.cos(theta) - b*np.sin(t)*np.sin(theta)
+c2_ellipse = d + a*np.cos(t)*np.sin(theta) + b*np.sin(t)*np.cos(theta)
+
+ax.plot(c3_ellipse, c2_ellipse, 'r-', lw=2)
+
+ax.set_title("Average KE Ratio at varying spring polynomial coefficients")
+ax.set_xlabel("C3")
+ax.set_xlim(1,15)
+ax.set_ylabel("C2")
+ax.set_ylim(-10,-1)
+fig.colorbar(pcm, ax=ax).set_label("Average KE Ratio")
+
 plt.show()
