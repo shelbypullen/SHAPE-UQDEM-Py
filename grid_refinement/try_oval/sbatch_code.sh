@@ -5,7 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=112
 #SBATCH --cpus-per-task=1
-#SBATCH --time=01:30:00
+#SBATCH --time=04:00:00
 #SBATCH --partition=pbatch
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=spullen@ucsd.edu
