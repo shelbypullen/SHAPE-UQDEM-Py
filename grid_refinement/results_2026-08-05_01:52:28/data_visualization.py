@@ -90,7 +90,7 @@ fig1.savefig(file_path_fig1, dpi=300, bbox_inches='tight')
 # plot the highest resolution 
 fig2, axs2 = plt.subplots(1,1,figsize=(2*(grid_size), 2*(grid_size)))
 norm2 = colors.TwoSlopeNorm(vmin=np.nanmin(total_KE_avgs[-1]), vcenter=1, vmax = np.nanmax(total_KE_avgs[-1]))
-pcm2 = axs2.pcolormesh(c3,c2, total_KE_avgs[-1].T,cmap='RdBu_r',norm=norm2)
+pcm2 = axs2.pcolormesh(c3,c2, total_KE_avgs[-1],cmap='RdBu_r',norm=norm2)
 axs2.set_title(f"{int(c_nums[-1])}x{int(c_nums[-1])}")
 axs2.set_xlabel("C3", fontsize=8)
 axs2.set_ylabel("C2", fontsize=8)
