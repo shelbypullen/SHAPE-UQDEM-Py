@@ -47,11 +47,16 @@ ratios_slice = [np.load(os.path.join(latest_results_dir, f"KE_ratios_slice_{task
 
 n_samples = ratios_slice[0][0].shape[2]                     # need number of MC samples
 
+opt_c2s = np.zeros(n_ref_steps)
+opt_c3s = np.zeros(n_ref_steps)
+opt_KEs = np.zeros((n_ref_steps, 3))                                  # each row = [opt_cost, opt KE_avg, opt_std]
 ############################################################
 # stitching everything together
 ############################################################
 for k in range(n_ref_steps):
     c_num = int(c_nums[k])
+    c2_sweep = np.linspace(-10,-1,c_num)
+    c3_sweep = np.linspace(1,15,c_num)
 
     #initializing within each task_id
     KE_cost_full   = np.full((c_num, c_num), np.nan)
@@ -74,6 +79,14 @@ for k in range(n_ref_steps):
     total_KE_stds[k] = KE_stds_full
     total_KE_ratios[k] = KE_ratios_full
 
+    ############################################################
+    # get optimal values
+    ############################################################
+    c2_idx,c3_idx = np.unravel_index(np.nanargmin(KE_cost_full), KE_cost_full.shape)      # where the optimal spring coefficients are
+    opt_c2s[k] = c2_sweep[c2_idx]
+    opt_c3s[k] = c3_sweep[c3_idx]
+    opt_KEs[k] = [np.nanmin(KE_cost_full), KE_avgs_full[c2_idx,c3_idx], KE_stds_full[c2_idx,c3_idx]]
+
 ############################################################
 # saving complete arrays
 ############################################################
@@ -84,3 +97,8 @@ np.save(os.path.join(latest_results_dir, "total_KE_ratios.npy"), total_KE_ratios
 
 toc = time.perf_counter()
 print(f"runtime = {toc-tic}")
+
+# printing all necessary info to the .out file
+for k in range(n_ref_steps):
+    print(f"refinement level {k}: c2 = {opt_c2s[k]:.4f}, c3 = {opt_c3s[k]:.4f}, ")
+    print(f"KE_cost = {opt_KEs[k,0]:.4f}, KE_avg = {opt_KEs[k,1]:.4f}, KE_std = {opt_KEs[k,2]:.4f}")
