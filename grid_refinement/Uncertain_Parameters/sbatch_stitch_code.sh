@@ -11,7 +11,7 @@
 #SBATCH --time=00:05:00
 
 #SBATCH --partition=pbatch
-#SBATCH --mail-type=ALL
+#SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=spullen@ucsd.edu
 
 cd $SLURM_SUBMIT_DIR
