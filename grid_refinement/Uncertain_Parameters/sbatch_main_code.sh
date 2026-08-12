@@ -5,14 +5,14 @@
 
 #SBATCH --array=0-1
 #SBATCH --nodes=1
-#SBATCH --ntasks=112
+#SBATCH --ntasks=20
 #SBATCH --cpus-per-task=1
-#SBATCH --ntasks-per-node=112
+#SBATCH --ntasks-per-node=20
 #SBATCH --mem-per-cpu=10M
-#SBATCH --time=00:20:00
+#SBATCH --time=00:10:00
 
 #SBATCH --partition=pbatch
-#SBATCH --mail-type=ALL
+#SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=spullen@ucsd.edu
 
 cd $SLURM_SUBMIT_DIR
