@@ -159,7 +159,9 @@ if __name__ == '__main__':
     # Saving data
     ############################################################
     timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")  # saving the date and time
-    save_dir = f"results_{timestamp}"
+    script_dir = os.path.dirname(__file__)
+    save_name = f"results_{timestamp}"
+    save_dir = os.path.join(script_dir, save_name)
     os.makedirs(save_dir, exist_ok=True)
 
     # saving all desired outputs
