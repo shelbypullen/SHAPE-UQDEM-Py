@@ -1,15 +1,15 @@
 #!/bin/bash
-#SBATCH --job-name=DEM_Python_grid_refinement
+#SBATCH --job-name=DEM_UQ_arrays
 #SBATCH --output=results_%A_%a.out
 #SBATCH --error=results_%A_%a.err
 
-#SBATCH --array=0-4
+#SBATCH --array=0-1
 #SBATCH --nodes=1
 #SBATCH --ntasks=112
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=112
 #SBATCH --mem-per-cpu=10M
-#SBATCH --time=01:30:00
+#SBATCH --time=00:20:00
 
 #SBATCH --partition=pbatch
 #SBATCH --mail-type=ALL

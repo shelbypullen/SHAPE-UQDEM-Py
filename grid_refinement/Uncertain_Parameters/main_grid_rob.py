@@ -9,9 +9,9 @@ from datetime import datetime
 import sys
 
 """
-!!!!ONLY USE ON HPC BECAUSE OF MULTINODAL STRUCTURE!!!!
+built for HPC but can handle running on personal computer 
+!!! will take like a year !!!
 """
-
 ############################################################
 # Defining function for parallelization that each CPU will run
 ############################################################
@@ -76,19 +76,19 @@ def get_n_cores():
 if __name__ == '__main__':
     tic = time.perf_counter()                               # counts seconds
 
-    n_cores, task_id, n_jobs, job_id = get_n_cores()                # get number of cores and tasks and jobs for multinodal computing
+    n_cores, task_id, n_jobs, job_id = get_n_cores()        # get number of cores and tasks and jobs for multinodal computing
     
     ############################################################
     # creating results directory or grabbing it from previously failed run
     ############################################################
     timestamp = datetime.now().strftime("%Y-%m-%d")# saving the date and time
-    script_dir = os.path.dirname(__file__)                  # getting current file directory
+    script_dir = os.path.dirname(__file__)                 # getting current file directory
     save_name = f"results_{timestamp}_job-{job_id}"
 
     if len(sys.argv) > 1:
-        save_dir = sys.argv[1]                          # second arg in sbatch script command line   
+        save_dir = sys.argv[1]                             # second arg in sbatch script command line   
     else:
-        save_dir = os.path.join(script_dir, save_name)  # creating new results folder if first try run
+        save_dir = os.path.join(script_dir, save_name)     # creating new results folder if first try run
         os.makedirs(save_dir, exist_ok=True)
 
     
@@ -119,9 +119,9 @@ if __name__ == '__main__':
     ############################################################
     # Defining C2 C3 grid coarseness
     ############################################################
-    refinement_factor = (500/20)**(1/3)                                # so max c_nums = 500 after 4 steps (i=0:3)
+    refinement_factor = (500/20)**(1/3)                     # so max c_nums = 500 after 4 steps (i=0:3)
     coarse = 20
-    n_ref_steps = 1
+    n_ref_steps = 2
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
 
@@ -142,8 +142,8 @@ if __name__ == '__main__':
             # creating coefficient arrays
             ############################################################
             c_num = c_nums[k]
-            c2_sweep = np.linspace(-10,-1,c_num)                   # can change ranges
-            c3_sweep = np.linspace(1,15,c_num)                     # can change ranges
+            c2_sweep = np.linspace(-10,-1,c_num)             # can change ranges
+            c3_sweep = np.linspace(1,15,c_num)               # can change ranges
 
             c2_slice = np.array_split(c2_sweep, n_jobs)[task_id]
             c2_indices = np.array_split(np.arange(c_num), n_jobs)[task_id]
@@ -234,4 +234,4 @@ if __name__ == '__main__':
         if os.path.exists(check_file_path):
             os.remove(check_file_path)
     
-    print(f"checkpoints cleared for task {task_id}")
+    print(f"Task {task_id} completed and checkpoints cleared")
