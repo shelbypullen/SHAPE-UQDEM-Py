@@ -62,8 +62,8 @@ def init_worker(shared_data):
 ############################################################
 def get_n_cores():
     n_cores = os.environ.get("SLURM_NTASKS")                # cores from SLURM (HPC)
-    task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',0))  # which nodal task is it defaults to 0 for 1st index
-    n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",1))# how many nodes/tasks are there defaults to 1 for 1 job/node
+    task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',2))  # which nodal task is it defaults to 0 for 1st index
+    n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",3))# how many nodes/tasks are there defaults to 1 for 1 job/node
     job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",1))
     
     if n_cores is not None:                                 # if this is an HPC Job, use number of cpus from SLURM
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     tic = time.perf_counter()                               # counts seconds
 
     n_cores, task_id, n_jobs, job_id = get_n_cores()        # get number of cores and tasks and jobs for multinodal computing
-    
+
     ############################################################
     # creating results directory or grabbing it from previously failed run
     ############################################################
@@ -88,11 +88,12 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 1:
         save_dir = sys.argv[1]                             # second arg in sbatch script command line   
+        print("pulling previous results from given directory")
     else:
         save_dir = os.path.join(script_dir, save_name)     # creating new results folder if first try run
         os.makedirs(save_dir, exist_ok=True)
+        print("creating new directory for results")
 
-    
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
@@ -121,7 +122,7 @@ if __name__ == '__main__':
     # Defining C2 C3 grid coarseness
     ############################################################
     refinement_factor = (500/20)**(1/3)                     # so max c_nums = 500 after 4 steps (i=0:3)
-    coarse = 5
+    coarse = 20
     n_ref_steps = 1
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
@@ -147,7 +148,7 @@ if __name__ == '__main__':
             c3_sweep = np.linspace(1,15,c_num)               # can change ranges
 
             c2_slice = np.array_split(c2_sweep, n_jobs)[task_id]
-            c2_indices = np.array_split(np.arange(c_num), 3)[1]
+            c2_indices = np.array_split(np.arange(c_num), n_jobs)[task_id]
 
             ############################################################
             # empty results arrays
@@ -185,7 +186,7 @@ if __name__ == '__main__':
                 for i_local, i_global in enumerate(c2_indices)
                 for j in range(c_num)
             ]
-            print(enumerate(c2_indices))
+
             results = pool.starmap(run_obj, tasks)
 
             for i_global, j_local, cost, avg, std, ratio in results:             # getting the results
@@ -210,7 +211,7 @@ if __name__ == '__main__':
             total_KE_avgs[k]   = KE_avgs
             total_KE_stds[k]   = KE_stds
             total_KE_ratios[k] = KE_ratios
-
+    
     ############################################################
     # Saving data
     ############################################################
