@@ -61,9 +61,9 @@ def init_worker(shared_data):
 ############################################################
 def get_n_cores():
     n_cores = os.environ.get("SLURM_NTASKS")                # cores from SLURM (HPC)
-    task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',2))  # which nodal task is it defaults to 0 for 1st index
+    task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',0))  # which nodal task is it defaults to 0 for 1st index
     n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",3))# how many nodes/tasks are there defaults to 1 for 1 job/node
-    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",1))
+    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",2))
     
     if n_cores is not None:                                 # if this is an HPC Job, use number of cpus from SLURM
         return int(n_cores), task_id, n_jobs, job_id
