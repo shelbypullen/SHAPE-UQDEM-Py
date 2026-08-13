@@ -63,7 +63,7 @@ def get_n_cores():
     n_cores = os.environ.get("SLURM_NTASKS")                # cores from SLURM (HPC)
     task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',0))  # which nodal task is it defaults to 0 for 1st index
     n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",1))# how many nodes/tasks are there defaults to 1 for 1 job/node
-    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID"))
+    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",1))
     
     if n_cores is not None:                                 # if this is an HPC Job, use number of cpus from SLURM
         return int(n_cores), task_id, n_jobs, job_id
@@ -120,8 +120,8 @@ if __name__ == '__main__':
     # Defining C2 C3 grid coarseness
     ############################################################
     refinement_factor = (500/20)**(1/3)                     # so max c_nums = 500 after 4 steps (i=0:3)
-    coarse = 20
-    n_ref_steps = 2
+    coarse = 5
+    n_ref_steps = 1
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
 
@@ -146,7 +146,7 @@ if __name__ == '__main__':
             c3_sweep = np.linspace(1,15,c_num)               # can change ranges
 
             c2_slice = np.array_split(c2_sweep, n_jobs)[task_id]
-            c2_indices = np.array_split(np.arange(c_num), n_jobs)[task_id]
+            c2_indices = np.array_split(np.arange(c_num), 3)[1]
 
             ############################################################
             # empty results arrays
@@ -163,21 +163,27 @@ if __name__ == '__main__':
             if os.path.exists(check_file_path):
                 print(f"check found existing results for refinement level {k} and task {task_id}: skipping")
                 checkpoint = np.load(check_file_path, allow_pickle=True).item()
-                KE_cost[k]   = checkpoint['KE_cost']
-                KE_avgs[k]   = checkpoint['KE_avgs']
-                KE_stds[k]   = checkpoint['KE_stds']
-                KE_ratios[k] = checkpoint['KE_ratios']
+                KE_cost    = checkpoint['KE_cost']
+                KE_avgs    = checkpoint['KE_avgs']
+                KE_stds    = checkpoint['KE_stds']
+                KE_ratios  = checkpoint['KE_ratios']
+
+                # saving to total arrays as well
+                total_KE_cost[k]   = KE_cost
+                total_KE_avgs[k]   = KE_avgs
+                total_KE_stds[k]   = KE_stds
+                total_KE_ratios[k] = KE_ratios
                 continue
 
             ############################################################
             # Running parallel job
             ############################################################
             tasks = [                                               # defining what is being parallelized over
-                (i_global, j_local, c2_slice[i_global], c3_sweep[j_local], n_samples) 
-                for i_global in c2_indices
-                for j_local in range(c_num)
+                (i_global, j, c2_slice[i_local], c3_sweep[j], n_samples)
+                for i_local, i_global in enumerate(c2_indices)
+                for j in range(c_num)
             ]
-
+            print(enumerate(c2_indices))
             results = pool.starmap(run_obj, tasks)
 
             for i_global, j_local, cost, avg, std, ratio in results:             # getting the results
@@ -202,7 +208,7 @@ if __name__ == '__main__':
             total_KE_avgs[k]   = KE_avgs
             total_KE_stds[k]   = KE_stds
             total_KE_ratios[k] = KE_ratios
-    
+    """
     ############################################################
     # Saving data
     ############################################################
@@ -235,3 +241,4 @@ if __name__ == '__main__':
             os.remove(check_file_path)
     
     print(f"Task {task_id} completed and checkpoints cleared")
+    """
