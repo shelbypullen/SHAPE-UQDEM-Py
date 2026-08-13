@@ -1,0 +1,6 @@
+Python: /usr/tce/bin/python3
+[0 1 2]
+[3 4]
+runtime = 0.014095864025875926
+refinement level 0: c2 = -10.0000, c3 = 1.0000, 
+KE_cost = 0.0000, KE_avg = 0.0000, KE_std = 0.0000

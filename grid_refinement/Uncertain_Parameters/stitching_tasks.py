@@ -11,7 +11,7 @@ tic = time.perf_counter()
 # getting path to most recent folder modified
 ############################################################
 script_dir = os.path.dirname(__file__)
-all_results = os.path.join(script_dir, "results_*")
+all_results = os.path.join(script_dir, "results_2026*")
 folders = glob.glob(all_results)
 
 if not folders:
