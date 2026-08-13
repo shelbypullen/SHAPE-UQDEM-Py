@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=DEM_Stitch
-#SBATCH --output=results_%j.out
-#SBATCH --error=results_%j.err
+#SBATCH --output=results_stitch_%j.out
+#SBATCH --error=results_stitch_%j.err
 
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

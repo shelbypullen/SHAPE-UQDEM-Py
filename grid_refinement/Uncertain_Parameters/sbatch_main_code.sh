@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=DEM_UQ_arrays
-#SBATCH --output=results_%A_%a.out
-#SBATCH --error=results_%A_%a.err
+#SBATCH --output=results_main_%A_%a.out
+#SBATCH --error=results_main_%A_%a.err
 
 #SBATCH --array=0-1
 #SBATCH --nodes=1
