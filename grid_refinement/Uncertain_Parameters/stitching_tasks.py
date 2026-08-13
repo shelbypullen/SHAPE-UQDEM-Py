@@ -19,6 +19,7 @@ if not folders:
 
 latest_results_dir = max(folders, key=os.path.getmtime)     # os.path.getmtime gives the most recent 
                                                             # time modified as what is being maximized
+print("results directory: ", latest_results_dir)
 ############################################################
 # initializing arrays to be returned and loading arrays
 ############################################################
@@ -64,6 +65,8 @@ for k in range(n_ref_steps):
     KE_stds_full   = np.full((c_num, c_num), np.nan)
     KE_ratios_full = np.full((c_num, c_num, n_samples), np.nan)
 
+    print(np.shape(KE_cost_full))
+
     # stitching
     for task_id in range(n_jobs):
         c2_indicies = np.array_split(np.arange(c_num), n_jobs)[task_id]
@@ -94,11 +97,31 @@ np.save(os.path.join(latest_results_dir, "total_KE_cost.npy"), total_KE_cost)
 np.save(os.path.join(latest_results_dir, "total_KE_avgs.npy"), total_KE_avgs)
 np.save(os.path.join(latest_results_dir, "total_KE_stds.npy"), total_KE_stds)
 np.save(os.path.join(latest_results_dir, "total_KE_ratios.npy"), total_KE_ratios)
-
-toc = time.perf_counter()
-print(f"runtime = {toc-tic}")
+print("All files saved")
 
 # printing all necessary info to the .out file
 for k in range(n_ref_steps):
     print(f"refinement level {k}: c2 = {opt_c2s[k]:.4f}, c3 = {opt_c3s[k]:.4f}, ")
     print(f"KE_cost = {opt_KEs[k,0]:.4f}, KE_avg = {opt_KEs[k,1]:.4f}, KE_std = {opt_KEs[k,2]:.4f}")
+
+
+# delete slices:
+for k in range(n_jobs):
+    avgs_slice_file_path   = os.path.join(latest_results_dir, f"KE_avgs_slice_{k}.npy")
+    stds_slice_file_path   = os.path.join(latest_results_dir, f"KE_stds_slice_{k}.npy")
+    cost_slice_file_path   = os.path.join(latest_results_dir, f"KE_cost_slice_{k}.npy")
+    ratios_slice_file_path = os.path.join(latest_results_dir, f"KE_ratios_slice_{k}.npy")
+    if os.path.exists(avgs_slice_file_path):
+        os.remove(avgs_slice_file_path)
+    if os.path.exists(stds_slice_file_path):
+        os.remove(stds_slice_file_path)
+    if os.path.exists(cost_slice_file_path):
+        os.remove(cost_slice_file_path)
+    if os.path.exists(ratios_slice_file_path):
+        os.remove(ratios_slice_file_path)
+    print(f"task {k} slices deleted")
+
+
+toc = time.perf_counter()
+print(f"runtime = {toc-tic}")
+    
