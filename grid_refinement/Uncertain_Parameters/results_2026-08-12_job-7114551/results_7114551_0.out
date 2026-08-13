@@ -1,0 +1,11 @@
+Python: /usr/tce/bin/python3
+Cores: 20
+Job ID: 7114551
+Task ID: 0
+runtime = 42.024
+timestamp: 2026-08-12
+n_cores: 20
+n_nodes: 2
+task_id: 0
+n_samples: 1
+Task 0 completed and checkpoints cleared
