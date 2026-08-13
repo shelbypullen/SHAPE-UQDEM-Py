@@ -8,7 +8,7 @@
 #SBATCH --ntasks=20
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=20
-#SBATCH --mem-per-cpu=10M
+#SBATCH --mem=5G
 #SBATCH --time=00:10:00
 
 #SBATCH --partition=pbatch

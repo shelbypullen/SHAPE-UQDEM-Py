@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/main_grid_rob.py", line 176, in <module>
+    (i_global, j_local, c2_slice[i_global], c3_sweep[j_local], n_samples)
+                        ~~~~~~~~^^^^^^^^^^
+IndexError: index 10 is out of bounds for axis 0 with size 10
