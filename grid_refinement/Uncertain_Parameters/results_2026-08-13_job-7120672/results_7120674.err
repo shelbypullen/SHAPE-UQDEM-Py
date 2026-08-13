@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/stitching_tasks.py", line 26, in <module>
+    c_nums = np.load(c_nums_path, allow_pickle=True)
+  File "/collab/usr/gapps/python/toss_4_x86_64_ib/anaconda3-2025.3.1/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py", line 459, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+NotADirectoryError: [Errno 20] Not a directory: '/g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/results_7120674.out/c_nums.npy'

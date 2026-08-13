@@ -208,7 +208,7 @@ if __name__ == '__main__':
             total_KE_avgs[k]   = KE_avgs
             total_KE_stds[k]   = KE_stds
             total_KE_ratios[k] = KE_ratios
-    """
+
     ############################################################
     # Saving data
     ############################################################
@@ -241,4 +241,3 @@ if __name__ == '__main__':
             os.remove(check_file_path)
     
     print(f"Task {task_id} completed and checkpoints cleared")
-    """

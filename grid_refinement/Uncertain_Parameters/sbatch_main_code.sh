@@ -9,7 +9,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=20
 #SBATCH --mem=5G
-#SBATCH --time=00:10:00
+#SBATCH --time=00:05:00
 
 #SBATCH --partition=pbatch
 #SBATCH --mail-type=BEGIN,END

@@ -1,0 +1,12 @@
+Python: /usr/tce/bin/python3
+Cores: 20
+Job ID: 7120672
+Task ID: 1
+<enumerate object at 0x1554ba5acdb0>
+runtime = 1.420
+timestamp: 2026-08-13
+n_cores: 20
+n_nodes: 2
+task_id: 1
+n_samples: 1
+Task 1 completed and checkpoints cleared
