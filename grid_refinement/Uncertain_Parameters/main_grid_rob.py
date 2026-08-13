@@ -174,7 +174,7 @@ if __name__ == '__main__':
             ############################################################
             tasks = [                                               # defining what is being parallelized over
                 (i_global, j_local, c2_slice[i_global], c3_sweep[j_local], n_samples) 
-                for i_global in c2_indices
+                for i_global in enumerate(c2_indices)
                 for j_local in range(c_num)
             ]
 

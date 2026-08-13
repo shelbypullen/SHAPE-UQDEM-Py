@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/main_grid_rob.py", line 176, in <module>
+    (i_global, j_local, c2_slice[i_global], c3_sweep[j_local], n_samples)
+                        ~~~~~~~~^^^^^^^^^^
+IndexError: too many indices for array: array is 1-dimensional, but 2 were indexed
