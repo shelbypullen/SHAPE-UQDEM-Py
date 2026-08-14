@@ -54,49 +54,50 @@ def init_worker(shared_data):
 ############################################################
 def get_n_cores():
     n_cores = os.environ.get("SLURM_NTASKS")                # cores from SLURM (HPC)
-
+    task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',0))  # which nodal task is it defaults to 0 for 1st index
+    n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",1))# how many nodes/tasks are there defaults to 1 for 1 job/node
+    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",1))
+    
     if n_cores is not None:                                 # if this is an HPC Job, use number of cpus from SLURM
-        return int(n_cores)
+        return int(n_cores), task_id, n_jobs, job_id
     else:
-        return max(1, os.cpu_count() - 1)                   # if no slurm cpu allocation (i.e. running on a local laptop) use local CPU # -1 for background processes
-
+        return max(1,os.cpu_count()-1),task_id,n_jobs,job_id# if no slurm cpu allocation (i.e. running on a local laptop) 
+                                                            # use local CPU # -1 for background processes
 ############################################################
 # MAIN
 ############################################################
 if __name__ == '__main__':
     tic = time.perf_counter()                               # counts seconds
 
-    n_cores = get_n_cores()                                 # get number of cores
+    n_cores, task_id, n_jobs, job_id = get_n_cores()        # get number of cores and tasks and jobs for multinodal computing
     ############################################################
     # Defining C2 C3 space - CAN CHANGE c2_num, c3_num FOR HIGHER PRECISION
     ############################################################
-    c2_num = 500
-    c3_num = 500
+    c2_num = 20
+    c3_num = 20
     c2_sweep = np.linspace(-10,-1,c2_num)                   # can change ranges
     c3_sweep = np.linspace(1,15,c3_num)                     # can change ranges
-
 
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 1
-    rng = np.random.default_rng()
+    n_samples = 1000
+    seed = 13510249453205735037716673912871003318           # seed for random number replication
+    rng = np.random.default_rng(seed=seed)
     M_up = 0.45 + 0.015
     M_low = 0.45 - 0.015
-    #M_normal = rng.uniform(M_low, M_up, n_samples)         # varying inputs
-    N = 20
-    M0_impactor = N/2
-    M_normal = [0.05]                                       #single input
+    M_normal = rng.uniform(M_low, M_up, n_samples)         # varying inputs
+    #M_normal = [0.05]                                       #single input
 
     V_up = 0.8+0.3
     V_low = 0.8-0.3
-    #V_normal = rng.uniform(V_low, V_up, n_samples)         # varing inputs
-    V_normal = [1]                                          # single input
+    V_normal = rng.uniform(V_low, V_up, n_samples)         # varing inputs
+    #V_normal = [1]                                          # single input
 
     Z_up = 0.15+0.01
     Z_low = 0.15-0.01
-    #zeta_sweep = rng.uniform(Z_low,Z_up,n_samples)         # varing inputs
-    zeta_sweep = [0.01]                                     # signle input
+    zeta_sweep = rng.uniform(Z_low,Z_up,n_samples)         # varing inputs
+    #zeta_sweep = [0.01]                                     # signle input
     stochastic_info = [M_normal, V_normal, zeta_sweep]
 
     ############################################################
@@ -135,9 +136,14 @@ if __name__ == '__main__':
     ############################################################
     # Saving data
     ############################################################
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")  # saving the date and time
-    save_dir = f"results_{timestamp}"
+    # creating results directory or grabbing it from previously failed run
+    timestamp = datetime.now().strftime("%Y-%m-%d")# saving the date and time
+    script_dir = os.path.dirname(__file__)                 # getting current file directory
+    save_name = f"results_{timestamp}_job-{job_id}"
+
+    save_dir = os.path.join(script_dir, save_name)     # creating new results folder if first try run
     os.makedirs(save_dir, exist_ok=True)
+    print("creating new directory for results")
 
     # saving all desired outputs
     np.save(os.path.join(save_dir, "KE_avgs.npy"),   KE_avgs)
@@ -151,6 +157,7 @@ if __name__ == '__main__':
 
     # printing all necessary info to the .out file
     print(f"timestamp: {timestamp}")
+    print(f"job ID: {job_id}")
     print([f"c2_num: {c2_num}", f"c3_num: {c3_num}"])
     print(f"n_cores: {n_cores}")
     print(f"n_samples: {n_samples}")
