@@ -1,15 +1,15 @@
 #!/bin/bash
-#SBATCH --job-name=DEM_UQ_arrays
+#SBATCH --job-name=20_by_20_DEM_MC
 #SBATCH --output=results_main_%A_%a.out
 #SBATCH --error=results_main_%A_%a.err
 
-#SBATCH --array=0-1
+#SBATCH --array=0-14
 #SBATCH --nodes=1
-#SBATCH --ntasks=20
+#SBATCH --ntasks=112
 #SBATCH --cpus-per-task=1
-#SBATCH --ntasks-per-node=20
+#SBATCH --ntasks-per-node=112
 #SBATCH --mem=5G
-#SBATCH --time=00:05:00
+#SBATCH --time=06:30:00
 
 #SBATCH --partition=pbatch
 #SBATCH --mail-type=BEGIN,END
@@ -22,6 +22,6 @@ echo "Cores: $SLURM_NTASKS"
 echo "Job ID: $SLURM_ARRAY_JOB_ID"
 echo "Task ID: $SLURM_ARRAY_TASK_ID"
 
-python3 main_grid_rob.py #include directory name as second arg if previously failed
+python3 200main_grid_rob.py #include directory name as second arg if previously failed
 
 
