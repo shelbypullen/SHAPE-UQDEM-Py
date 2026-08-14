@@ -3,13 +3,13 @@
 #SBATCH --output=results_main_%A_%a.out
 #SBATCH --error=results_main_%A_%a.err
 
-#SBATCH --array=0-1
+#SBATCH --array=0-14
 #SBATCH --nodes=1
-#SBATCH --ntasks=20
+#SBATCH --ntasks=112
 #SBATCH --cpus-per-task=1
-#SBATCH --ntasks-per-node=20
+#SBATCH --ntasks-per-node=112
 #SBATCH --mem=5G
-#SBATCH --time=00:05:00
+#SBATCH --time=06:30:00
 
 #SBATCH --partition=pbatch
 #SBATCH --mail-type=BEGIN,END
