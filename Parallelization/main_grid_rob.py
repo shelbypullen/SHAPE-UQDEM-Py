@@ -30,11 +30,11 @@ def run_obj(i, j, c2, c3, n_samples):
     KE_ratios = all KE_ratio's for every realization of the RVs
     """
     # if negative strain energy return with all nan
-    if c3 < 2/9*c2**2:
-        KE_avgs = np.nan
-        KE_stds = np.nan
-        KE_cost = np.nan
-        return i, j, KE_cost, KE_avgs, KE_stds, np.full(n_samples, np.nan)
+    # if c3 < 2/9*c2**2:
+    #     KE_avgs = np.nan
+    #     KE_stds = np.nan
+    #     KE_cost = np.nan
+    #     return i, j, KE_cost, KE_avgs, KE_stds, np.full(n_samples, np.nan)
     
     # running the objective function
     non_spring_info = [c2,c3]
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 1000
+    n_samples = 1
     seed = 13510249453205735037716673912871003318           # seed for random number replication
     rng = np.random.default_rng(seed=seed)
     M_up = 0.45 + 0.015
@@ -144,6 +144,8 @@ if __name__ == '__main__':
     save_dir = os.path.join(script_dir, save_name)     # creating new results folder if first try run
     os.makedirs(save_dir, exist_ok=True)
     print("creating new directory for results")
+
+    print(np.shape(KE_avgs))
 
     # saving all desired outputs
     np.save(os.path.join(save_dir, "KE_avgs.npy"),   KE_avgs)
