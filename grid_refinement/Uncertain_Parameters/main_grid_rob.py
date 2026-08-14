@@ -63,8 +63,8 @@ def init_worker(shared_data):
 def get_n_cores():
     n_cores = os.environ.get("SLURM_NTASKS")                # cores from SLURM (HPC)
     task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',0))  # which nodal task is it defaults to 0 for 1st index
-    n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",3))# how many nodes/tasks are there defaults to 1 for 1 job/node
-    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",2))
+    n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",1))# how many nodes/tasks are there defaults to 1 for 1 job/node
+    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",1))
     
     if n_cores is not None:                                 # if this is an HPC Job, use number of cpus from SLURM
         return int(n_cores), task_id, n_jobs, job_id
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 1
+    n_samples = 1000
     seed = 13510249453205735037716673912871003318           # seed for random number replication
     rng = np.random.default_rng(seed=seed)
     
@@ -189,6 +189,7 @@ if __name__ == '__main__':
 
             results = pool.starmap(run_obj, tasks)
 
+            #saving results
             for i_global, j_local, cost, avg, std, ratio in results:             # getting the results
                 KE_cost[i_global,j_local]   = cost
                 KE_avgs[i_global,j_local]   = avg
