@@ -96,7 +96,7 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 2
+    n_samples = 1000
     seed = 13510249453205735037716673912871003318           # seed for random number replication
     rng = np.random.default_rng(seed=seed)
     
