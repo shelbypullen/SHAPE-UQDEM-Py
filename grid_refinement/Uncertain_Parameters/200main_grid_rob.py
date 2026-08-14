@@ -1,4 +1,3 @@
-
 import multiprocessing
 multiprocessing.set_start_method("fork")
 from multiprocessing import Pool            # parallelizing tool
@@ -122,7 +121,7 @@ if __name__ == '__main__':
     # Defining C2 C3 grid coarseness
     ############################################################
     refinement_factor = (500/20)**(1/3)                     # so max c_nums = 500 after 4 steps (i=0:3)
-    coarse = 20
+    coarse = 200
     n_ref_steps = 1
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
@@ -181,7 +180,6 @@ if __name__ == '__main__':
             # Running parallel job
             ############################################################
             tasks = [                                               # defining what is being parallelized over
-
                 (i_global, j, c2_slice[i_local], c3_sweep[j], n_samples)
                 for i_local, i_global in enumerate(c2_indices)
                 for j in range(c_num)
@@ -251,4 +249,4 @@ if __name__ == '__main__':
             os.remove(check_file_path)
     
     print(f"Task {task_id} completed and checkpoints cleared")
-
+    
