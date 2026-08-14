@@ -220,10 +220,16 @@ if __name__ == '__main__':
     print(f"runtime = {toc-tic:.3f}")
 
     # saving all desired outputs with task id for later identification
-    np.save(os.path.join(save_dir, f"KE_avgs_slice_{task_id}.npy"),   total_KE_avgs)
-    np.save(os.path.join(save_dir, f"KE_stds_slice_{task_id}.npy"),   total_KE_stds)
-    np.save(os.path.join(save_dir, f"KE_cost_slice_{task_id}.npy"),   total_KE_cost)
-    np.save(os.path.join(save_dir, f"KE_ratios_slice_{task_id}.npy"), total_KE_ratios)
+    if n_jobs > 1:
+        np.save(os.path.join(save_dir, f"KE_avgs_slice_{task_id}.npy"),   total_KE_avgs)
+        np.save(os.path.join(save_dir, f"KE_stds_slice_{task_id}.npy"),   total_KE_stds)
+        np.save(os.path.join(save_dir, f"KE_cost_slice_{task_id}.npy"),   total_KE_cost)
+        np.save(os.path.join(save_dir, f"KE_ratios_slice_{task_id}.npy"), total_KE_ratios)
+    else:
+        np.save(os.path.join(save_dir, "total_KE_avgs.npy"),   total_KE_avgs)
+        np.save(os.path.join(save_dir, "total_KE_stds.npy"),   total_KE_stds)
+        np.save(os.path.join(save_dir, "total_KE_cost.npy"),   total_KE_cost)
+        np.save(os.path.join(save_dir, "total_KE_ratios.npy"), total_KE_ratios)
 
     # saving coefficient options if another task hasn't done it yet
     if not os.path.exists(os.path.join(save_dir, "c_nums.npy")):
