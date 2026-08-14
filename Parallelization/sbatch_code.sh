@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=DEM_Python_test
-#SBATCH --output=results_%j.out
-#SBATCH --error=results_%j.err
+#SBATCH --job-name=20_by_20_DEM_MC
+#SBATCH --output=20results_%j.out
+#SBATCH --error=20results_%j.err
 #SBATCH --nodes=1
-#SBATCH --ntasks=90
+#SBATCH --ntasks=112
 #SBATCH --cpus-per-task=1
-#SBATCH --time=00:40:00
+#SBATCH --time=01:00:00
 #SBATCH --partition=pbatch
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=spullen@ucsd.edu
