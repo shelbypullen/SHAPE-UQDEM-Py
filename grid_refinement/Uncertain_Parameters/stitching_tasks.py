@@ -31,6 +31,7 @@ total_KE_cost = np.empty(n_ref_steps, dtype=object)
 total_KE_avgs = np.empty(n_ref_steps, dtype=object)
 total_KE_stds = np.empty(n_ref_steps, dtype=object)
 total_KE_ratios = np.empty(n_ref_steps, dtype=object)
+opt_KE_ratios = np.empty(n_ref_steps, dtype=object)
 
 #getting number of jobs e.g. how many different cost files are there
 all_tasks = os.path.join(latest_results_dir, "KE_avgs_slice_*.npy")
@@ -51,6 +52,7 @@ n_samples = ratios_slice[0][0].shape[2]                     # need number of MC 
 opt_c2s = np.zeros(n_ref_steps)
 opt_c3s = np.zeros(n_ref_steps)
 opt_KEs = np.zeros((n_ref_steps, 3))                                  # each row = [opt_cost, opt KE_avg, opt_std]
+
 ############################################################
 # stitching everything together
 ############################################################
@@ -90,13 +92,16 @@ for k in range(n_ref_steps):
     opt_c3s[k] = c3_sweep[c3_idx]
     opt_KEs[k] = [np.nanmin(KE_cost_full), KE_avgs_full[c2_idx,c3_idx], KE_stds_full[c2_idx,c3_idx]]
 
+    #get optimal KE_ratios so I can delete unneccesary data
+    opt_KE_ratios[k] = KE_ratios_full[c2_idx,c3_idx]
+
 ############################################################
 # saving complete arrays
 ############################################################
 np.save(os.path.join(latest_results_dir, "total_KE_cost.npy"), total_KE_cost)
 np.save(os.path.join(latest_results_dir, "total_KE_avgs.npy"), total_KE_avgs)
 np.save(os.path.join(latest_results_dir, "total_KE_stds.npy"), total_KE_stds)
-np.save(os.path.join(latest_results_dir, "total_KE_ratios.npy"), total_KE_ratios)
+np.savez_compressed(os.path.join(latest_results_dir, "opt_KE_ratios.npz"), opt_KE_ratios)
 print("All files saved")
 
 # printing all necessary info to the .out file
