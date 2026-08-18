@@ -36,6 +36,7 @@ def run_obj(i, j, c2, c3, n_samples):
     KE_stds = standard deviation of KE_ratios for all realization of the RVs
     KE_ratios = all KE_ratio's for every realization of the RVs
     """
+    print(f"c2 = {c2}, c3 = {c3}")
     # if negative strain energy return with all nan
     if c3 < 2/9*c2**2:
         KE_avgs = np.nan
