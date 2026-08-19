@@ -1,0 +1,14 @@
+Python: /usr/tce/bin/python3
+Cores: 112
+Job ID: 7191262
+Task ID: 2
+pulling previous results from given directory
+runtime = 8477.046
+timestamp: 2026-08-18
+n_cores: 112
+n_nodes: 15
+task_id: 10
+sub_id: 2
+n_sub: 4
+n_samples: 1000
+Task 10 completed and checkpoints cleared

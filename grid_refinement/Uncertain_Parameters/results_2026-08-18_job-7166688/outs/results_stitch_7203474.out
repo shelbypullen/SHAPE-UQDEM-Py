@@ -1,0 +1,7 @@
+Python: /usr/tce/bin/python3
+results directory:  /g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/results_2026-08-18_job-7166688
+task 10 saved as KE_cost_slice10.npy
+task 11 saved as KE_cost_slice11.npy
+task 12 saved as KE_cost_slice12.npy
+task 13 saved as KE_cost_slice13.npy
+runtime = 0.20942667592316866

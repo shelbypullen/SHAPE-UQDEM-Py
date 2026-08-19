@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/stitching_tasks.py", line 41, in <module>
+    cost_slice = [np.load(os.path.join(latest_results_dir, f"KE_cost_slice_{task_id}.npy"), allow_pickle=True)
+                  ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/collab/usr/gapps/python/toss_4_x86_64_ib/anaconda3-2025.3.1/lib/python3.13/site-packages/numpy/lib/_npyio_impl.py", line 459, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/results_2026-08-18_job-7166688/KE_cost_slice_10.npy'
