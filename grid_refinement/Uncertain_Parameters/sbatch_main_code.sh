@@ -1,8 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=200_DEM_MC
-#SBATCH --output=200results_main_%A_%a.out
-#SBATCH --error=200results_main_%A_%a.err
-
+#SBATCH --job-name=20_by_20_DEM_MC
+#SBATCH --output=results_main_%A_%a.out
+#SBATCH --error=results_main_%A_%a.err
 #SBATCH --array=0-14
 #SBATCH --nodes=1
 #SBATCH --ntasks=112

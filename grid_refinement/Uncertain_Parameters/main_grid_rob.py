@@ -92,7 +92,11 @@ if __name__ == '__main__':
     else:
         save_dir = os.path.join(script_dir, save_name)     # creating new results folder if first try run
         os.makedirs(save_dir, exist_ok=True)
+<<<<<<< HEAD
         print(f"creating new directory for results for job id {job_id}")
+=======
+        print("creating new directory for results")
+>>>>>>> origin/main
 
     ############################################################
     # random input space defined - CAN CHANGE n_samples
@@ -251,4 +255,3 @@ if __name__ == '__main__':
             os.remove(check_file_path)
     
     print(f"Task {task_id} completed and checkpoints cleared")
-
