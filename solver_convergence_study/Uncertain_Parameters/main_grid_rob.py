@@ -2,7 +2,7 @@ import multiprocessing
 multiprocessing.set_start_method("fork")
 from multiprocessing import Pool            # parallelizing tool
 import numpy as np
-import IE_objective                            # importing objective function file
+import RK12_objective                            # importing objective function file
 import os                                   # to get number of cpus
 import time                                 # to track computational time
 from datetime import datetime
@@ -45,7 +45,8 @@ def run_obj(i, j, c2, c3, n_samples):
     
     # running the objective function
     non_spring_info = [c2,c3]
-    [KE_cost, KE_avgs, KE_stds, KE_ratios] = IE_objective.objective(non_spring_info, 
+    print(f"c2 = {c2}, c3 = {c3}")
+    [KE_cost, KE_avgs, KE_stds, KE_ratios] = RK12_objective.objective(non_spring_info, 
                                                                  stochastic_info, n_samples)
     return i, j, KE_cost, KE_avgs, KE_stds, KE_ratios
 

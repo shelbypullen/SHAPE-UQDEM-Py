@@ -75,7 +75,7 @@ def get_n_cores():
 # MAIN
 ############################################################
 if __name__ == '__main__':
-    tic = time.perf_counter()                               # counts seconds
+    tic = time.process_time()                               # counts seconds
 
     n_cores, task_id, n_jobs, job_id = get_n_cores()        # get number of cores and tasks and jobs for multinodal computing
 
@@ -215,8 +215,8 @@ if __name__ == '__main__':
     ############################################################
     # Saving data
     ############################################################
-    toc = time.perf_counter()                                # getting final time
-    print(f"runtime = {toc-tic:.3f}")
+    toc = time.process_time()                                # getting final time
+    print(f"CPU Time = {toc-tic:.3f}")
 
     # saving all desired outputs with task id for later identification
     if n_jobs > 1:

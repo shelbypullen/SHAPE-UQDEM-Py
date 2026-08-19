@@ -3,6 +3,8 @@ import os
 from matplotlib import pyplot as plt
 from matplotlib import colors
 
+plt.rcParams['font.sans-serif'] = 'Arial'
+plt.rcParams['font.family'] = 'sans-serif'
 
 script_dir = os.path.dirname(__file__)                  # get the current file path to grab all data here
 figure_dir = os.path.join(script_dir, "Figures")
@@ -79,13 +81,13 @@ c2s = np.linspace(-10,-1,c_nums[0])
 c3s = np.linspace(1,15,c_nums[0])
 
 # plot the highest resolution 
-fig2, axs2 = plt.subplots(1,3,figsize=(12, 4))
+fig2, axs2 = plt.subplots(1,3,figsize=(12, 3.5))
 norm2 = colors.TwoSlopeNorm(vmin=np.nanmin(total_KE_avgs[-1]), vcenter=1, vmax = np.nanmax(total_KE_avgs[-1]))
 pcm2 = axs2[0].pcolormesh(c3s,c2s, total_KE_avgs[-1],cmap='RdBu_r',norm=norm2)
-axs2[0].set_title(f"{int(c_nums[-1])}x{int(c_nums[-1])}")
-axs2[0].set_xlabel("C3", fontsize=8)
-axs2[0].set_ylabel("c2", fontsize=8)
-fig2.colorbar(pcm2, ax=axs2[0]).set_label("KE Ratio", fontsize=6)
+axs2[0].set_title("Expectation of KE ratio")
+axs2[0].set_xlabel("$c_3$", fontsize=12)
+axs2[0].set_ylabel("$c_2$", fontsize=12)
+fig2.colorbar(pcm2, ax=axs2[0]).set_label("KE Ratio", fontsize=12)
 
 # red circle around optimal solution
 c2_idx,c3_idx = np.unravel_index(np.nanargmin(total_KE_avgs[-1]), total_KE_avgs[-1].shape)
@@ -100,10 +102,10 @@ axs2[0].set_ylim([-8,-1])
 
 #norm3 = colors.TwoSlopeNorm(vmin=np.nanmin(total_KE_stds[-1]), vcenter=1, vmax = np.nanmax(total_KE_stds[-1]))
 pcm3 = axs2[1].pcolormesh(c3s,c2s, total_KE_stds[-1],cmap='RdBu_r')
-axs2[1].set_title(f"{int(c_nums[-1])}x{int(c_nums[-1])}")
-axs2[1].set_xlabel("C3", fontsize=8)
-axs2[1].set_ylabel("c2", fontsize=8)
-fig2.colorbar(pcm3, ax=axs2[1]).set_label("KE sd", fontsize=6)
+axs2[1].set_title("Upper Standard Deviation of KE Ratio")
+axs2[1].set_xlabel("$c_3$", fontsize=12)
+axs2[1].set_ylabel("$c_2$", fontsize=12)
+fig2.colorbar(pcm3, ax=axs2[1]).set_label("KE sd", fontsize=12)
 
 # red circle around optimal solution
 c2_idx,c3_idx = np.unravel_index(np.nanargmin(total_KE_stds[-1]), total_KE_stds[-1].shape)
@@ -118,10 +120,10 @@ axs2[1].set_ylim([-8,-1])
 
 norm4 = colors.TwoSlopeNorm(vmin=np.nanmin(total_KE_cost[-1]), vcenter=1, vmax = np.nanmax(total_KE_cost[-1]))
 pcm2 = axs2[2].pcolormesh(c3s,c2s, total_KE_cost[-1],cmap='RdBu_r',norm=norm4)
-axs2[2].set_title(f"{int(c_nums[-1])}x{int(c_nums[-1])}")
-axs2[2].set_xlabel("C3", fontsize=8)
-axs2[2].set_ylabel("c2", fontsize=8)
-fig2.colorbar(pcm2, ax=axs2[2]).set_label("KE Ratio", fontsize=6)
+axs2[2].set_title("$J(c_2,c_3)$")
+axs2[2].set_xlabel("$c_3$", fontsize=12)
+axs2[2].set_ylabel("$c_2$", fontsize=12)
+fig2.colorbar(pcm2, ax=axs2[2]).set_label("KE Ratio", fontsize=12)
 
 # red circle around optimal solution
 c2_idx,c3_idx = np.unravel_index(np.nanargmin(total_KE_cost[-1]), total_KE_cost[-1].shape)

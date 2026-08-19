@@ -29,15 +29,16 @@ def run_obj(i, j, c2, c3, n_samples):
     KE_stds = standard deviation of KE_ratios for all realization of the RVs
     KE_ratios = all KE_ratio's for every realization of the RVs
     """
-    # if negative strain energy return with all nan
-    # if c3 < 2/9*c2**2:
-    #     KE_avgs = np.nan
-    #     KE_stds = np.nan
-    #     KE_cost = np.nan
-    #     return i, j, KE_cost, KE_avgs, KE_stds, np.full(n_samples, np.nan)
+    #if negative strain energy return with all nan
+    if c3 < 2/9*c2**2:
+        KE_avgs = np.nan
+        KE_stds = np.nan
+        KE_cost = np.nan
+        return i, j, KE_cost, KE_avgs, KE_stds, np.full(n_samples, np.nan)
     
     # running the objective function
     non_spring_info = [c2,c3]
+    print(f"c2 = {c2}, c3 = {c3}")
     [KE_cost, KE_avgs, KE_stds, KE_ratios] = objective.objective(non_spring_info, stochastic_info, n_samples)
 
     return i, j, KE_cost, KE_avgs, KE_stds, KE_ratios
@@ -62,7 +63,9 @@ def get_n_cores():
         return int(n_cores), task_id, n_jobs, job_id
     else:
         return max(1,os.cpu_count()-1),task_id,n_jobs,job_id# if no slurm cpu allocation (i.e. running on a local laptop) 
+        #return 1,task_id,n_jobs,job_id# if no slurm cpu allocation (i.e. running on a local laptop) 
                                                             # use local CPU # -1 for background processes
+            
 ############################################################
 # MAIN
 ############################################################
@@ -86,18 +89,18 @@ if __name__ == '__main__':
     rng = np.random.default_rng(seed=seed)
     M_up = 0.45 + 0.015
     M_low = 0.45 - 0.015
-    M_normal = rng.uniform(M_low, M_up, n_samples)         # varying inputs
-    #M_normal = [0.05]                                       #single input
+    #M_normal = rng.uniform(M_low, M_up, n_samples)         # varying inputs
+    M_normal = [0.05]                                       #single input
 
     V_up = 0.8+0.3
     V_low = 0.8-0.3
-    V_normal = rng.uniform(V_low, V_up, n_samples)         # varing inputs
-    #V_normal = [1]                                          # single input
+    #V_normal = rng.uniform(V_low, V_up, n_samples)         # varing inputs
+    V_normal = [1]                                          # single input
 
     Z_up = 0.15+0.01
     Z_low = 0.15-0.01
-    zeta_sweep = rng.uniform(Z_low,Z_up,n_samples)         # varing inputs
-    #zeta_sweep = [0.01]                                     # signle input
+    #zeta_sweep = rng.uniform(Z_low,Z_up,n_samples)         # varing inputs
+    zeta_sweep = [0.01]                                     # signle input
     stochastic_info = [M_normal, V_normal, zeta_sweep]
 
     ############################################################
