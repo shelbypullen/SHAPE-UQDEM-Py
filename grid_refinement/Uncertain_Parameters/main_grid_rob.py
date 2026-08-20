@@ -1,3 +1,4 @@
+
 import multiprocessing
 multiprocessing.set_start_method("fork")
 from multiprocessing import Pool            # parallelizing tool
@@ -36,7 +37,7 @@ def run_obj(i, j, c2, c3, n_samples):
     KE_stds = standard deviation of KE_ratios for all realization of the RVs
     KE_ratios = all KE_ratio's for every realization of the RVs
     """
-    print(f"c2 = {c2}, c3 = {c3}")
+
     # if negative strain energy return with all nan
     if c3 < 2/9*c2**2:
         KE_avgs = np.nan
@@ -75,7 +76,8 @@ def get_n_cores():
 # MAIN
 ############################################################
 if __name__ == '__main__':
-    tic = time.process_time()                               # counts seconds
+
+    tic = time.perf_counter()                               # counts seconds
 
     n_cores, task_id, n_jobs, job_id = get_n_cores()        # get number of cores and tasks and jobs for multinodal computing
 
@@ -92,7 +94,8 @@ if __name__ == '__main__':
     else:
         save_dir = os.path.join(script_dir, save_name)     # creating new results folder if first try run
         os.makedirs(save_dir, exist_ok=True)
-        print("creating new directory for results")
+        print(f"creating new directory for results for job id {job_id}")
+
 
     ############################################################
     # random input space defined - CAN CHANGE n_samples
@@ -215,8 +218,9 @@ if __name__ == '__main__':
     ############################################################
     # Saving data
     ############################################################
-    toc = time.process_time()                                # getting final time
-    print(f"CPU Time = {toc-tic:.3f}")
+
+    toc = time.perf_counter()                                # getting final time
+    print(f"runtime = {toc-tic:.3f}")
 
     # saving all desired outputs with task id for later identification
     if n_jobs > 1:
@@ -250,4 +254,4 @@ if __name__ == '__main__':
             os.remove(check_file_path)
     
     print(f"Task {task_id} completed and checkpoints cleared")
-    
+
