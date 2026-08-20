@@ -1,0 +1,2 @@
+[2026-08-14T19:02:39.013] error: *** JOB 7151649 ON dane971 CANCELLED AT 2026-08-14T19:02:39 DUE TO TIME LIMIT ***
+[2026-08-14T19:02:39.040] error: Detected 261 oom_kill events in StepId=7151649.batch. Some of the step tasks have been OOM Killed.

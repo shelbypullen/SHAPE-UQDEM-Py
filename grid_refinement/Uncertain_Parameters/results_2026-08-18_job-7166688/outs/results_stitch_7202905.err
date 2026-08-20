@@ -1,0 +1,2 @@
+/var/spool/slurmd/job7202905/slurm_script: line 21: 1033360 Killed                  python3 stitching_subs.py
+[2026-08-19T12:05:56.732] error: Detected 1 oom_kill event in StepId=7202905.batch. Some of the step tasks have been OOM Killed.

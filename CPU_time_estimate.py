@@ -19,6 +19,7 @@ def estimate(n_cores, n_nodes, grid_length_start, ref_factor, n_grids, n_MCs, sa
     print(f"Total Function Calls = {total_calls}")
 
     new_total_hr = prev_CPUhr_per_call * total_calls / (n_cores * n_nodes)
+<<<<<<< HEAD
 
     print(f"Average Estimated Hours to finish = {new_total_hr:.2f}")
     print(f"If on Multiple Nodes, Time for Last Node = {new_total_hr*2:.2f}")
@@ -30,6 +31,16 @@ n_cores = 112                       # per node
 n_nodes = 15
 grid_length_start = 200             # like c_num - number in linspace discretizing coeff array
 
+=======
+    print(f"Estimated Hours to finish = {new_total_hr:.2f}")
+
+    print(f"Recommended Time Limit = {new_total_hr*safety_factor:.2f}")
+
+# new run info 
+n_cores = 112                       # per node
+n_nodes = 1
+grid_length_start = 20             # like c_num - number in linspace discretizing coeff array
+>>>>>>> origin/main
 ref_factor = 1.38                   # multiplication factor that the grid length increases by each time
 n_grids = 1                         # number of different grids - set as one if no grid refinement
 n_MCs = 1000                           # number of Monte carlo samples 

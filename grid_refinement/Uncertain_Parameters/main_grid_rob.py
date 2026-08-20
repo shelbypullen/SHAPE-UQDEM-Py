@@ -37,7 +37,6 @@ def run_obj(i, j, c2, c3, n_samples):
     KE_stds = standard deviation of KE_ratios for all realization of the RVs
     KE_ratios = all KE_ratio's for every realization of the RVs
     """
-
     # if negative strain energy return with all nan
     if c3 < 2/9*c2**2:
         KE_avgs = np.nan
@@ -94,6 +93,7 @@ if __name__ == '__main__':
     else:
         save_dir = os.path.join(script_dir, save_name)     # creating new results folder if first try run
         os.makedirs(save_dir, exist_ok=True)
+
         print(f"creating new directory for results for job id {job_id}")
 
 
@@ -218,7 +218,6 @@ if __name__ == '__main__':
     ############################################################
     # Saving data
     ############################################################
-
     toc = time.perf_counter()                                # getting final time
     print(f"runtime = {toc-tic:.3f}")
 
@@ -254,4 +253,3 @@ if __name__ == '__main__':
             os.remove(check_file_path)
     
     print(f"Task {task_id} completed and checkpoints cleared")
-

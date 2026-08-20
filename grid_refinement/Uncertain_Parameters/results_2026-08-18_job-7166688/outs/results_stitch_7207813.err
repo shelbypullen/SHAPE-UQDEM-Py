@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/stitching_tasks.py", line 111, in <module>
+    print(f"KE_cost = {opt_KEs[k,0]:.4f}, KE_avg = {opt_KEs[k,1]:.4f}, KE_std = {opt_KEs[k,2]:.4f}")
+                       ^^^^^^^
+NameError: name 'opt_KEs' is not defined. Did you mean: 'opt_c2s'?

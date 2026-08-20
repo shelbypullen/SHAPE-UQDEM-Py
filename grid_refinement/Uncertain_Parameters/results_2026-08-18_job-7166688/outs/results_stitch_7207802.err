@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/g/g17/pullen3/SHAPE-UQDEM-Py/grid_refinement/Uncertain_Parameters/stitching_tasks.py", line 93, in <module>
+    opt_KEs[k] = [np.nanmin(KE_cost_full), KE_avgs_full[c2_idx,c3_idx], KE_stds_full[c2_idx,c3_idx]]
+    ^^^^^^^
+NameError: name 'opt_KEs' is not defined. Did you mean: 'opt_c2s'?
