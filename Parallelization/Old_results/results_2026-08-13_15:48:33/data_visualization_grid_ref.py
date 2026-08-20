@@ -18,8 +18,10 @@ total_KE_avgs = np.load(os.path.join(script_dir, "KE_avgs.npy"),allow_pickle=Tru
 total_KE_stds = np.load(os.path.join(script_dir, "KE_stds.npy"),allow_pickle=True)
 total_KE_cost = np.load(os.path.join(script_dir, "KE_cost.npy"),allow_pickle=True)
 total_KE_ratios = np.load(os.path.join(script_dir, "KE_ratios.npy"),allow_pickle=True)
+
 print(np.shape(total_KE_avgs[0]))
 total_KE_avgs[0] = total_KE_avgs[0].reshape(c_nums,c_nums)
+
 # confirm that all arrays are the same size
 print(c_nums)
 print(np.size(total_KE_avgs))

@@ -29,7 +29,7 @@ def run_obj(i, j, c2, c3, n_samples):
     KE_stds = standard deviation of KE_ratios for all realization of the RVs
     KE_ratios = all KE_ratio's for every realization of the RVs
     """
-    #if negative strain energy return with all nan
+    # if negative strain energy return with all nan
     if c3 < 2/9*c2**2:
         KE_avgs = np.nan
         KE_stds = np.nan
@@ -63,9 +63,7 @@ def get_n_cores():
         return int(n_cores), task_id, n_jobs, job_id
     else:
         return max(1,os.cpu_count()-1),task_id,n_jobs,job_id# if no slurm cpu allocation (i.e. running on a local laptop) 
-        #return 1,task_id,n_jobs,job_id# if no slurm cpu allocation (i.e. running on a local laptop) 
-                                                            # use local CPU # -1 for background processes
-            
+
 ############################################################
 # MAIN
 ############################################################
@@ -84,7 +82,9 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
+
     n_samples = 1
+
     seed = 13510249453205735037716673912871003318           # seed for random number replication
     rng = np.random.default_rng(seed=seed)
     M_up = 0.45 + 0.015
@@ -101,6 +101,7 @@ if __name__ == '__main__':
     Z_low = 0.15-0.01
     #zeta_sweep = rng.uniform(Z_low,Z_up,n_samples)         # varing inputs
     zeta_sweep = [0.01]                                     # signle input
+
     stochastic_info = [M_normal, V_normal, zeta_sweep]
 
     ############################################################
@@ -148,9 +149,6 @@ if __name__ == '__main__':
     os.makedirs(save_dir, exist_ok=True)
     print("creating new directory for results")
 
-    print(np.shape(KE_avgs))
-
-    # saving all desired outputs
     np.save(os.path.join(save_dir, "KE_avgs.npy"),   KE_avgs)
     np.save(os.path.join(save_dir, "KE_stds.npy"),   KE_stds)
     np.save(os.path.join(save_dir, "KE_cost.npy"),   KE_cost)
