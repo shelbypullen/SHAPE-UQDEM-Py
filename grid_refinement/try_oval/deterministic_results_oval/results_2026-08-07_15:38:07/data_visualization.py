@@ -3,6 +3,9 @@ import os
 from matplotlib import pyplot as plt
 from matplotlib import colors
 
+plt.rcParams['font.sans-serif'] = 'Arial'
+plt.rcParams['font.family'] = 'sans-serif'
+
 script_dir = os.path.dirname(__file__)                  # get the current file path to grab all data here
 figure_dir = os.path.join(script_dir, "Figures")
 os.makedirs(figure_dir, exist_ok=True)                  # make a new folder to store figures
@@ -111,6 +114,24 @@ plt.tight_layout()
 # save the plot
 file_path_fig2 = os.path.join(figure_dir, f"most_refined_{c_nums[-1]}x{c_nums[-1]}_KE_avgs.png")
 fig2.savefig(file_path_fig2, dpi=300, bbox_inches='tight')
+
+# figure zoomed in
+# plot the highest resolution 
+fig3, axs3 = plt.subplots(1,1,figsize=(4, 3), layout="constrained")
+pcm3 = axs3.pcolormesh(c3s,c2s, total_KE_avgs[-1],cmap='RdBu_r',norm=norm2)
+
+axs3.set_xlim([5,10])
+axs3.set_ylim([-6.25,-4.25])
+
+axs3.set_xticks([])
+axs3.set_yticks([])
+
+#plt.tight_layout()
+
+# save the plot
+file_path_fig3 = os.path.join(figure_dir, f"zoomed_{c_nums[-1]}x{c_nums[-1]}_KE_avgs.png")
+fig3.savefig(file_path_fig3, dpi=300, bbox_inches='tight')
+
 
 # to see the plot
 plt.show()

@@ -16,7 +16,7 @@ total_KE_ratios = np.load(os.path.join(script_dir, "total_KE_ratios.npy"),allow_
 
 time = np.load(os.path.join(script_dir, "final_time_count.npy"),allow_pickle=True)
 
-print(time)
+print(time.sum())
 
 # # confirm that all arrays are the same size
 # print(c_nums)

@@ -37,18 +37,22 @@ def run_obj(i, j, c2, c3, n_samples):
     KE_stds = standard deviation of KE_ratios for all realization of the RVs
     KE_ratios = all KE_ratio's for every realization of the RVs
     """
+    tic1 = time.process_time()
     # if negative strain energy return with all nan
     if c3 < 2/9*c2**2:
         KE_avgs = np.nan
         KE_stds = np.nan
         KE_cost = np.nan
-        return i, j, KE_cost, KE_avgs, KE_stds, np.full(n_samples, np.nan)
-    
+        return i, j, KE_cost, KE_avgs, KE_stds, np.full(n_samples, np.nan), 0
+    print(f"c2 = {c2}, c3 = {c3}")
     # running the objective function
     non_spring_info = [c2,c3]
     [KE_cost, KE_avgs, KE_stds, KE_ratios] = objective.objective(non_spring_info, 
                                                                  stochastic_info, n_samples)
-    return i, j, KE_cost, KE_avgs, KE_stds, KE_ratios
+
+    toc1 = time.process_time()
+    cpu_time = toc1 - tic1
+    return i, j, KE_cost, KE_avgs, KE_stds, KE_ratios, cpu_time
 
 ############################################################
 # making stochastic_info global so it doesn't have to be assigned to each CPU every time
@@ -136,6 +140,7 @@ if __name__ == '__main__':
     total_KE_stds   = np.empty(n_ref_steps, dtype=object)
     total_KE_ratios = np.empty(n_ref_steps, dtype=object)
 
+    total_time = np.empty(n_ref_steps, dtype=object)
     ############################################################
     # run objective function
     ############################################################
@@ -161,6 +166,7 @@ if __name__ == '__main__':
             KE_cost   = np.zeros((c_num,c_num))
             KE_ratios = np.zeros((c_num,c_num, n_samples))
 
+            cpu_times = np.zeros((c_num,c_num))
             ############################################################
             # checking if this has already been computed
             ############################################################
@@ -172,14 +178,16 @@ if __name__ == '__main__':
                 KE_avgs    = checkpoint['KE_avgs']
                 KE_stds    = checkpoint['KE_stds']
                 KE_ratios  = checkpoint['KE_ratios']
+                cpu_times   = checkpoint['cpu_times']
 
                 # saving to total arrays as well
                 total_KE_cost[k]   = KE_cost
                 total_KE_avgs[k]   = KE_avgs
                 total_KE_stds[k]   = KE_stds
                 total_KE_ratios[k] = KE_ratios
+                total_time[k]      = cpu_times
                 continue
-
+            
             ############################################################
             # Running parallel job
             ############################################################
@@ -192,11 +200,12 @@ if __name__ == '__main__':
             results = pool.starmap(run_obj, tasks)
 
             #saving results
-            for i_global, j_local, cost, avg, std, ratio in results:             # getting the results
+            for i_global, j_local, cost, avg, std, ratio, cpu_time in results:             # getting the results
                 KE_cost[i_global,j_local]   = cost
                 KE_avgs[i_global,j_local]   = avg
                 KE_stds[i_global,j_local]   = std
-                KE_ratios[i_global,j_local] = ratio
+                KE_ratios[i_global,j_local,:] = ratio
+                cpu_times[i_global,j_local]  = cpu_time
 
             ############################################################
             # saving checkpoint
@@ -205,7 +214,8 @@ if __name__ == '__main__':
                 'KE_cost'   : KE_cost,
                 "KE_avgs"   : KE_avgs,
                 "KE_stds"   : KE_stds,
-                "KE_ratios" : KE_ratios
+                "KE_ratios" : KE_ratios,
+                "cpu_times"  : cpu_times
             }
             np.save(check_file_path, checkpoint)
 
@@ -214,6 +224,7 @@ if __name__ == '__main__':
             total_KE_avgs[k]   = KE_avgs
             total_KE_stds[k]   = KE_stds
             total_KE_ratios[k] = KE_ratios
+            total_time[k]      = cpu_times
     
     ############################################################
     # Saving data
@@ -227,11 +238,15 @@ if __name__ == '__main__':
         np.save(os.path.join(save_dir, f"KE_stds_slice_{task_id}.npy"),   total_KE_stds)
         np.save(os.path.join(save_dir, f"KE_cost_slice_{task_id}.npy"),   total_KE_cost)
         np.save(os.path.join(save_dir, f"KE_ratios_slice_{task_id}.npy"), total_KE_ratios)
+        np.save(os.path.join(save_dir,f"time_slice_{task_id}.npy"), total_time)
     else:
         np.save(os.path.join(save_dir, "total_KE_avgs.npy"),   total_KE_avgs)
         np.save(os.path.join(save_dir, "total_KE_stds.npy"),   total_KE_stds)
         np.save(os.path.join(save_dir, "total_KE_cost.npy"),   total_KE_cost)
         np.save(os.path.join(save_dir, "total_KE_ratios.npy"), total_KE_ratios)
+        complete_cpu_time = np.sum(total_time)
+        print(f"total CPUhrs = {complete_cpu_time/3600} ")
+        np.save(os.path.join(save_dir,"final_time_count.npy"), complete_cpu_time)
 
     # saving coefficient options if another task hasn't done it yet
     if not os.path.exists(os.path.join(save_dir, "c_nums.npy")):
