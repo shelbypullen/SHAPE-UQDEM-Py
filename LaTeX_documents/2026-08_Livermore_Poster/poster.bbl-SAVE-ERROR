@@ -1,0 +1,111 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{Nature_comms}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=1ed58279a63acd16ee178bd4e683baab}{%
+           family={{MacNider}},
+           familyi={M\bibinitperiod},
+           given={Brianna},
+           giveni={B\bibinitperiod}}}%
+        {{hash=64162c13a161c88c26048aed05b6dbea}{%
+           family={Xiu},
+           familyi={X\bibinitperiod},
+           given={Haning},
+           giveni={H\bibinitperiod}}}%
+        {{hash=73b7a846189e082859fcefa4f1fe8955}{%
+           family={Tamur},
+           familyi={T\bibinitperiod},
+           given={Caglar},
+           giveni={C\bibinitperiod}}}%
+        {{hash=81e718542697d8cb9b28022566aa3a73}{%
+           family={Qian},
+           familyi={Q\bibinitperiod},
+           given={Kai},
+           giveni={K\bibinitperiod}}}%
+        {{hash=9d2c7b12a1e09c5f94c7d9ffbd69c105}{%
+           family={Frankel},
+           familyi={F\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+        {{hash=d2be41b891935dbffffc379905520111}{%
+           family={Brandy},
+           familyi={B\bibinitperiod},
+           given={Maya},
+           giveni={M\bibinitperiod}}}%
+        {{hash=dfb3c94a0bcf26382479a3745d999cb7}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Hyunsun\bibnamedelima Alicia},
+           giveni={H\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=28cdc0fda321e797c4d711b7c1d9a2ae}{%
+           family={Boechler},
+           familyi={B\bibinitperiod},
+           given={Nicholas},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{0038950947303040265413c4c82ccb40}
+      \strng{fullhash}{0038950947303040265413c4c82ccb40}
+      \strng{fullhashraw}{0038950947303040265413c4c82ccb40}
+      \strng{bibnamehash}{0038950947303040265413c4c82ccb40}
+      \strng{authorbibnamehash}{0038950947303040265413c4c82ccb40}
+      \strng{authornamehash}{0038950947303040265413c4c82ccb40}
+      \strng{authorfullhash}{0038950947303040265413c4c82ccb40}
+      \strng{authorfullhashraw}{0038950947303040265413c4c82ccb40}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Abstract Passive wave transformation via nonlinearity is ubiquitous in settings from acoustics to optics and electromagnetics. It is well known that different nonlinearities yield different effects on propagating signals, which raises the question of “what precise nonlinearity is the best for a given wave tailoring application?” In this work, considering a one-dimensional spring-mass chain connected by polynomial springs (a variant of the Fermi-Pasta-Ulam-Tsingou system), we introduce a bilevel inverse design method which couples the shape optimization of structures for tailored constitutive responses with reduced-order nonlinear dynamical inverse design. We apply it to two qualitatively distinct problems—minimization of peak transmitted kinetic energy from impact, and pulse shape transformation—demonstrating our method’s breadth of applicability. For the impact problem, we obtain two fundamental insights. First, small differences in nonlinearity can drastically change the dynamic response of the system, from severely under- to outperforming a comparative linear system. Second, the oft-used strategy of impact mitigation via “energy locking” bistability can be significantly outperformed by our optimal nonlinearity. We validate this case with impact experiments and find excellent agreement. This study establishes a framework for broader passive nonlinear mechanical wave tailoring material design, with applications to computing, signal processing, shock mitigation, and autonomous materials.}
+      \field{day}{10}
+      \field{issn}{2041-1723}
+      \field{journaltitle}{Nature Communications}
+      \field{langid}{english}
+      \field{month}{4}
+      \field{number}{1}
+      \field{shortjournal}{Nat Commun}
+      \field{title}{Customizable wave tailoring nonlinear materials enabled by bilevel inverse design}
+      \field{urlday}{29}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{16}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{3425}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41467-025-58630-8
+      \endverb
+      \verb{file}
+      \verb PDF:/Users/work/Zotero/storage/SBLXXVW2/MacNider et al. - 2025 - Customizable wave tailoring nonlinear materials enabled by bilevel inverse design.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41467-025-58630-8
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41467-025-58630-8
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

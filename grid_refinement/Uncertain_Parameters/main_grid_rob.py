@@ -108,8 +108,8 @@ if __name__ == '__main__':
     seed = 13510249453205735037716673912871003318           # seed for random number replication
     rng = np.random.default_rng(seed=seed)
     
-    M_up = 0.45 + 0.015
-    M_low = 0.45 - 0.015
+    M_up = 0.045 + 0.015
+    M_low = 0.045 - 0.015
     M_normal = rng.uniform(M_low, M_up, n_samples)          # varying inputs
     #M_normal = [0.05]                                      #single input normalized mass M/M0
 
@@ -118,8 +118,8 @@ if __name__ == '__main__':
     V_normal = rng.uniform(V_low, V_up, n_samples)          # varing inputs
     #V_normal = [1]                                         # single input normalized velocity V/V0
 
-    Z_up = 0.15+0.01
-    Z_low = 0.15-0.01
+    Z_up = 0.015+0.01
+    Z_low = 0.015-0.01
     zeta_sweep = rng.uniform(Z_low,Z_up,n_samples)          # varing inputs
     #zeta_sweep = [0.01]                                    # single input
     
