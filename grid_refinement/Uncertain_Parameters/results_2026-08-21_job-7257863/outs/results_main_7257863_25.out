@@ -1,0 +1,12 @@
+Python: /usr/tce/bin/python3
+Cores: 112
+Job ID: 7257863
+Task ID: 25
+creating new directory for results
+runtime = 13458.268
+timestamp: 2026-08-21
+n_cores: 112
+n_nodes: 30
+task_id: 25
+n_samples: 1000
+Task 25 completed and checkpoints cleared
