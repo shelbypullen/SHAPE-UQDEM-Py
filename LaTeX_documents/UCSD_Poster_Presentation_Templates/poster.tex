@@ -1,0 +1,884 @@
+%!LW recipe=LuaLaTeX (latexmk)
+
+\documentclass[final]{beamer}
+
+% ============================================================
+% Packages
+% ============================================================
+
+\usepackage[size=custom,width=120,height=90,scale=1.0]{beamerposter}
+
+\usepackage{lmodern}
+\usepackage{lipsum}
+\usepackage{raleway}
+
+% Gemini theme
+\usetheme{gemini}
+\usecolortheme{gemini}
+
+% Figures and graphics
+\usepackage{graphicx}
+
+% Tables
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{arydshln}
+
+% Mathematics
+\usepackage{mathtools}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+
+% TikZ and plots
+\usepackage{tikz}
+\usetikzlibrary{overlay-beamer-styles}
+\usetikzlibrary{shapes}
+\usetikzlibrary{positioning}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\pgfplotsset{plot coordinates/math parser=false}
+
+% Subfigures
+\usepackage{subcaption}
+
+% QR codes
+\usepackage{qrcode}
+
+% Bibliography
+\usepackage[
+    backend=biber,
+    style=numeric,
+    sorting=none,
+    maxnames=99
+]{biblatex}
+
+% Add your bibliography file here
+% \addbibresource{bibliography.bib}
+
+
+% ============================================================
+% Colors
+% ============================================================
+
+\definecolor{ucsdblue}{RGB}{1,49,82}
+
+
+% ============================================================
+% Custom commands
+% ============================================================
+
+% Bold zero
+\newcommand{\bzero}{\ensuremath{\mathbf{0}}}
+
+% Vector notation
+\newcommand{\vect}[1]{\mathbf{#1}}
+
+% Common operators
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+
+% Example tilted notation
+\newcommand{\tA}{\ensuremath{\tilde{A}}}
+\newcommand{\tB}{\ensuremath{\tilde{B}}}
+\newcommand{\tC}{\ensuremath{\tilde{C}}}
+
+% Example bold letters
+\newcommand{\bA}{\ensuremath{\mathbf{A}}}
+\newcommand{\bB}{\ensuremath{\mathbf{B}}}
+\newcommand{\bC}{\ensuremath{\mathbf{C}}}
+
+% Example calligraphic letters
+\newcommand{\cA}{\ensuremath{\mathcal{A}}}
+\newcommand{\cB}{\ensuremath{\mathcal{B}}}
+\newcommand{\cC}{\ensuremath{\mathcal{C}}}
+
+% Kronecker-product power notation
+\newcommand*\circled[1]{%
+    \tikz[baseline=(char.base)]{
+        \node(
+            char
+        )[shape=rounded rectangle,draw,inner sep=0.6pt,minimum height=1.5ex]{#1};
+    }%
+}
+
+\newcommand{\kronF}[2]{%
+    {#1}^{\circled{\small{\ensuremath{#2}}}}
+}
+
+% Vectorization
+\newcommand{\Vec}[1]{%
+    \operatorname{vec}\left[#1\right]
+}
+
+
+% ============================================================
+% Poster dimensions
+% ============================================================
+
+% If you have N columns, choose \sepwidth and \colwidth such that
+%
+%   (N+1)*\sepwidth + N*\colwidth = \paperwidth
+%
+% The original poster uses three columns.
+
+\newlength{\sepwidth}
+\newlength{\colwidth}
+
+\setlength{\sepwidth}{0.025\paperwidth}
+\setlength{\colwidth}{0.30\paperwidth}
+
+\newcommand{\separatorcolumn}{%
+    \begin{column}{\sepwidth}
+    \end{column}
+}
+
+
+% ============================================================
+% Title
+% ============================================================
+
+\title{
+    Large Scale of a 1D Discrete Element Model with High Performance Computing
+}
+
+\author[
+    Your Name
+]{
+    Shelby Pullen \inst{1}
+    \and
+    Dr. Boris Kramer \inst{1}
+}
+
+\institute[
+    Your Institution
+]{
+    \inst{1}
+    Department of Mechanical and Aerospace Engineering,
+    University of California San Diego
+}
+
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+
+\Large
+
+
+% ============================================================
+% Logos
+% ============================================================
+
+\addtobeamertemplate{headline}{}
+{
+    \begin{tikzpicture}[
+        remember picture,
+        overlay
+    ]
+
+        % Left / UCSD JSOE logo
+        \node[
+            shift={(11cm,-8cm)}
+        ] at (current page.north west)
+        {
+            \includegraphics[
+                height=4.5cm
+            ]{figures/UCSDLogo_JSOE_White.png}
+        };
+
+        % Right / UCSD logo
+        \node[
+            shift={(-7cm,-5.7cm)}
+        ] at (current page.north east)
+        {
+            \includegraphics[
+                height=10cm
+            ]{figures/UCSD_logo.png}
+        };
+
+    \end{tikzpicture}
+}
+
+
+% ============================================================
+% Poster frame
+% ============================================================
+
+\begin{frame}[t]
+
+\begin{columns}[t]
+
+% ============================================================
+% COLUMN 1
+% ============================================================
+
+\separatorcolumn
+
+\begin{column}{0.96\colwidth}
+
+
+% ------------------------------------------------------------
+% Background and Motivation
+% ------------------------------------------------------------
+
+\begin{block}{Background and Motivation}
+
+\begin{itemize}
+
+    \item Introduce the scientific or engineering problem.
+
+    \item Explain why the problem is important.
+
+    \item Provide relevant background and context.
+
+    \item Briefly summarize existing approaches.
+
+\end{itemize}
+
+
+\vspace{0.5cm}
+
+\begin{center}
+
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={
+        align=center,
+        draw=ucsdblue,
+        rounded corners,
+        minimum width=5cm,
+        minimum height=2cm,
+        font=\large
+    },
+    arrow/.style={
+        ->,
+        >=stealth,
+        line width=3pt,
+        draw=ucsdblue
+    }
+]
+
+    \node[box] (problem)
+    {
+        \textbf{Problem}\\
+        Description
+    };
+
+    \node[box, right=of problem] (method)
+    {
+        \textbf{Method}\\
+        Proposed approach
+    };
+
+    \node[box, right=of method] (result)
+    {
+        \textbf{Result}\\
+        Main outcome
+    };
+
+    \draw[arrow]
+        (problem) -- node[above, font=\normalsize]
+        {approach}
+        (method);
+
+    \draw[arrow]
+        (method) -- node[above, font=\normalsize]
+        {analysis}
+        (result);
+
+\end{tikzpicture}
+
+\end{center}
+
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Research Problem
+% ------------------------------------------------------------
+
+\begin{alertblock}{Research Problem}
+
+\begin{center}
+
+\textbf{
+    State your primary research question or objective here.
+}
+
+\end{center}
+
+\end{alertblock}
+
+
+% ------------------------------------------------------------
+% Methods
+% ------------------------------------------------------------
+
+\begin{block}{Methods}
+
+\begin{enumerate}
+
+    \item Describe the first step of your methodology.
+
+    \item Describe the second step.
+
+    \item Describe the third step.
+
+\end{enumerate}
+
+
+\vspace{0.5cm}
+
+\begin{equation}
+    y = f(x)
+\end{equation}
+
+\vspace{0.5cm}
+
+Explain the equation and its relevance to your methodology.
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Research Question
+% ------------------------------------------------------------
+
+\begin{alertblock}{Research Question}
+
+\begin{center}
+
+\textbf{
+    What specific question does this work answer?
+}
+
+\end{center}
+
+\end{alertblock}
+
+
+% ------------------------------------------------------------
+% Example Figure
+% ------------------------------------------------------------
+
+\begin{block}{Approach}
+
+\begin{center}
+
+% Replace this with your own figure.
+%
+% \includegraphics[
+%     width=0.8\linewidth
+% ]{figures/your_figure.png}
+
+\vspace{2cm}
+
+\textbf{Insert figure here}
+
+\vspace{2cm}
+
+\end{center}
+
+\end{block}
+
+
+\end{column}
+
+
+% ============================================================
+% COLUMN 2
+% ============================================================
+
+\separatorcolumn
+
+\begin{column}{1.01\colwidth}
+
+
+% ------------------------------------------------------------
+% Main Method
+% ------------------------------------------------------------
+
+\textcolor{ucsdblue}{
+    \textbf{
+        A) \underline{Describe your primary method}
+    }
+}
+
+
+\vspace{0.5cm}
+
+
+\begin{block}{Method Overview}
+
+Explain your primary method here.
+
+\vspace{0.5cm}
+
+\begin{enumerate}
+
+    \item Step one.
+
+    \item Step two.
+
+    \item Step three.
+
+    \item Step four.
+
+\end{enumerate}
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Algorithm / Workflow
+% ------------------------------------------------------------
+
+\begin{block}{Algorithm or Workflow}
+
+\begin{center}
+
+\begin{tikzpicture}
+
+    \node[
+        draw,
+        rounded corners,
+        minimum width=5cm,
+        minimum height=1.5cm
+    ] (A)
+    {
+        Input
+    };
+
+    \node[
+        draw,
+        rounded corners,
+        minimum width=5cm,
+        minimum height=1.5cm
+    ] (B)
+    [right=2cm of A]
+    {
+        Processing
+    };
+
+    \node[
+        draw,
+        rounded corners,
+        minimum width=5cm,
+        minimum height=1.5cm
+    ] (C)
+    [right=2cm of B]
+    {
+        Output
+    };
+
+
+    \draw[
+        ->,
+        >=stealth,
+        line width=4pt
+    ]
+    (A) -- (B);
+
+    \draw[
+        ->,
+        >=stealth,
+        line width=4pt
+    ]
+    (B) -- (C);
+
+\end{tikzpicture}
+
+\end{center}
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Mathematical Formulation
+% ------------------------------------------------------------
+
+\begin{block}{Mathematical Formulation}
+
+Introduce the mathematical formulation of your problem.
+
+For example,
+
+\begin{align}
+    \frac{\partial u}{\partial t}
+    &=
+    f(u,x,t),
+    \\
+    y
+    &=
+    g(u).
+\end{align}
+
+Additional equations can be included here.
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Second Figure
+% ------------------------------------------------------------
+
+\begin{block}{Computational Approach}
+
+\begin{center}
+
+% Replace with your figure:
+%
+% \includegraphics[
+%     width=0.9\linewidth
+% ]{figures/method.png}
+
+\vspace{3cm}
+
+\textbf{Insert computational diagram here}
+
+\vspace{3cm}
+
+\end{center}
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Results
+% ------------------------------------------------------------
+
+\textcolor{ucsdblue}{
+    \textbf{
+        B) \underline{How does your method perform?}
+    }
+}
+
+
+\vspace{0.5cm}
+
+
+\begin{block}{Results}
+
+Describe the main results of your work.
+
+\vspace{0.5cm}
+
+\begin{itemize}
+
+    \item Result 1.
+
+    \item Result 2.
+
+    \item Result 3.
+
+\end{itemize}
+
+\end{block}
+
+
+\end{column}
+
+
+% ============================================================
+% COLUMN 3
+% ============================================================
+
+\separatorcolumn
+
+\begin{column}{1.05\colwidth}
+
+
+% ------------------------------------------------------------
+% Results Table
+% ------------------------------------------------------------
+
+\begin{block}{Quantitative Results}
+
+\begin{table}
+
+\centering
+
+\begin{tabular}{|l|c|c|c|}
+
+\hline
+
+\rowcolor[rgb]{0.941,0.941,0.941}
+
+\textbf{Test Case}
+&
+\textbf{Method 1}
+&
+\textbf{Method 2}
+&
+\textbf{Improvement}
+\\
+
+\hline
+
+Case 1
+&
+1.00
+&
+0.80
+&
+20\%
+\\
+
+\hline
+
+Case 2
+&
+2.10
+&
+1.40
+&
+33\%
+\\
+
+\hline
+
+Case 3
+&
+4.50
+&
+3.20
+&
+29\%
+\\
+
+\hline
+
+Case 4
+&
+8.20
+&
+5.10
+&
+38\%
+\\
+
+\hline
+
+\end{tabular}
+
+\end{table}
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Results Figure
+% ------------------------------------------------------------
+
+\begin{block}{Results Visualization}
+
+\begin{center}
+
+% Example PGFPlots figure.
+% You can replace this with your own data.
+
+\begin{tikzpicture}
+
+\begin{axis}[
+    width=0.9\linewidth,
+    height=7cm,
+    xlabel={Independent Variable},
+    ylabel={Dependent Variable},
+    grid=major
+]
+
+\addplot[
+    thick,
+    color=ucsdblue
+]
+coordinates {
+    (0,0)
+    (1,1)
+    (2,2.5)
+    (3,4)
+    (4,5.5)
+};
+
+\end{axis}
+
+\end{tikzpicture}
+
+\end{center}
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Comparison
+% ------------------------------------------------------------
+
+\begin{block}{Comparison with Existing Methods}
+
+\begin{table}
+
+\centering
+
+\begin{tabular}{lccc}
+
+\toprule
+
+Method
+&
+Accuracy
+&
+Time
+&
+Memory
+\\
+
+\midrule
+
+Existing Method 1
+&
+85\%
+&
+10.2 s
+&
+1.5 GB
+\\
+
+Existing Method 2
+&
+89\%
+&
+8.7 s
+&
+1.2 GB
+\\
+
+\textbf{Our Method}
+&
+\textbf{94\%}
+&
+\textbf{5.1 s}
+&
+\textbf{0.8 GB}
+\\
+
+\bottomrule
+
+\end{tabular}
+
+\end{table}
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% Summary
+% ------------------------------------------------------------
+
+\begin{block}{Summary and Future Work}
+
+We developed and evaluated a method for
+
+\textbf{
+    [insert one-sentence description of your contribution].
+}
+
+\vspace{0.5cm}
+
+Key conclusions:
+
+\begin{itemize}
+
+    \item Main conclusion 1.
+
+    \item Main conclusion 2.
+
+    \item Main conclusion 3.
+
+\end{itemize}
+
+\vspace{0.5cm}
+
+Future work:
+
+\begin{itemize}
+
+    \item Future direction 1.
+
+    \item Future direction 2.
+
+    \item Future direction 3.
+
+\end{itemize}
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% QR Code
+% ------------------------------------------------------------
+
+% \begin{center}
+
+% \Large
+% \textbf{Project / Paper / Software}
+
+% \vspace{0.3cm}
+
+% % Replace the URL with your own.
+% \qrcode[
+%     height=2.5in
+% ]{https://example.com}
+
+% \vspace{0.3cm}
+
+% \large
+% Scan for more information
+
+% \end{center}
+
+
+% ------------------------------------------------------------
+% Acknowledgements
+% ------------------------------------------------------------
+
+\begin{block}{Acknowledgements}
+
+This work was supported by
+
+\textbf{
+    [funding agency / grant number / collaborators].
+}
+
+\end{block}
+
+
+% ------------------------------------------------------------
+% References
+% ------------------------------------------------------------
+
+\begin{block}{References}
+
+% Uncomment the following line once you have a bibliography:
+%
+% \printbibliography
+
+\end{block}
+
+
+\end{column}
+
+
+% ============================================================
+% Final separator
+% ============================================================
+
+\separatorcolumn
+
+\end{columns}
+
+\end{frame}
+
+\end{document}

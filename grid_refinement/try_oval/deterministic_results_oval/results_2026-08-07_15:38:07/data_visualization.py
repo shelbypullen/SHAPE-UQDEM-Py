@@ -117,21 +117,47 @@ fig2.savefig(file_path_fig2, dpi=300, bbox_inches='tight')
 
 # figure zoomed in
 # plot the highest resolution 
-fig3, axs3 = plt.subplots(1,1,figsize=(4, 3), layout="constrained")
-pcm3 = axs3.pcolormesh(c3s,c2s, total_KE_avgs[-1],cmap='RdBu_r',norm=norm2)
+fig3, axs3 = plt.subplots(1,1,figsize=(3.5, 3), layout="constrained")
 
-axs3.set_xlim([5,10])
-axs3.set_ylim([-6.25,-4.25])
+full_cmap = plt.colormaps['RdBu_r']
+half_cmap = colors.ListedColormap(full_cmap(np.linspace(0, 0.5, 256)))
 
-axs3.set_xticks([])
-axs3.set_yticks([])
+norm3 = colors.TwoSlopeNorm(vmin=np.nanmin(total_KE_avgs[-1]), vcenter=0.5, vmax = 1)
+pcm3 = axs3.pcolormesh(c3s,c2s, total_KE_avgs[-1], cmap="RdBu_r")#,cmap=half_cmap,norm=norm3)
+#cbar3 = fig3.colorbar(pcm3, ax=axs3)
 
-#plt.tight_layout()
+axs3.set_xlim([6,10])
+axs3.set_ylim([-6.25,-5])
+axs3.set_xlabel("$c_3$", fontsize=12)
+axs3.set_ylabel("$c_2$",fontsize=12)
 
 # save the plot
 file_path_fig3 = os.path.join(figure_dir, f"zoomed_{c_nums[-1]}x{c_nums[-1]}_KE_avgs.png")
 fig3.savefig(file_path_fig3, dpi=300, bbox_inches='tight')
 
+
+# figure zoomed in
+# plot the highest resolution 
+
+fig4, axs4 = plt.subplots(1,1,figsize=(3.5, 3), layout="constrained")
+
+full_cmap = plt.colormaps['RdBu_r']
+half_cmap = colors.ListedColormap(full_cmap(np.linspace(0, 0.5, 256)))
+
+norm4 = colors.TwoSlopeNorm(vmin=np.nanmin(total_KE_avgs[-1]), vcenter=0.5, vmax = 1)
+pcm4 = axs4.pcolormesh(c3s,c2s, total_KE_avgs[-1], cmap="RdBu_r", norm=norm2)#,cmap=half_cmap,norm=norm3)
+#cbar3 = fig3.colorbar(pcm3, ax=axs3)
+
+axs4.set_ylim([-4,-2])
+axs4.set_xlim([1,4])
+axs4.set_xlabel("$c_3$", fontsize=12)
+axs4.set_ylabel("$c_2$",fontsize=12)
+
+#plt.tight_layout()
+
+# save the plot
+file_path_fig4 = os.path.join(figure_dir, f"zoomed_top_KE_avgs.png")
+fig4.savefig(file_path_fig4, dpi=300, bbox_inches='tight')
 
 # to see the plot
 plt.show()

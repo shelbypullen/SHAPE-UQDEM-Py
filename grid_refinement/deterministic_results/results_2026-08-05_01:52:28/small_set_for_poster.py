@@ -93,7 +93,6 @@ for j in wanted:
     i+=1
 cbar1 = fig1.colorbar(pcm1, ax=axs1, location="right", pad=0.01)
 cbar1.set_label("KE Ratio", fontsize=12)
-cbar1.set_ticks([1])
 file_path_fig1 = os.path.join(figure_dir, "grid_ref_comp.png")
 fig1.savefig(file_path_fig1, dpi=300, bbox_inches='tight')
 
