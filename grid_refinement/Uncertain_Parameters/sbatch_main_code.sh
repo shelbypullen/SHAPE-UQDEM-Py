@@ -3,14 +3,14 @@
 #SBATCH --output=results_main_%A_%a.out
 #SBATCH --error=results_main_%A_%a.err
 
-#SBATCH --array=0-14
+#SBATCH --array=0-29
 #SBATCH --nodes=1
 #SBATCH --ntasks=112
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=112
 
 #SBATCH --mem=150G
-#SBATCH --time=10:00:00
+#SBATCH --time=08:00:00
 
 #SBATCH --partition=pbatch
 #SBATCH --mail-type=BEGIN,END
