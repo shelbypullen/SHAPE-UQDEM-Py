@@ -49,6 +49,8 @@ fig2, ax = plt.subplots(1,1,figsize=(4,3),dpi=300, constrained_layout=True)
 pcm2 = ax.pcolormesh(c3s,c2s,RK12_4, cmap="inferno", norm=norm)
 ax.set_title("RK12 vs. RK45", fontsize=15)
 ax.set_ylim((-8,-1))
+ax.set_ylabel("$c_2$")
+ax.set_xlabel("$c_3$")
 
 plt.colorbar(pcm2, ax=ax, location="right").set_label("Percent Error [%]")
 

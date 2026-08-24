@@ -245,7 +245,7 @@ if __name__ == '__main__':
         np.save(os.path.join(save_dir, "total_KE_cost.npy"),   total_KE_cost)
         np.save(os.path.join(save_dir, "total_KE_ratios.npy"), total_KE_ratios)
         complete_cpu_time = np.sum(total_time)
-        print(f"total CPUhrs = {complete_cpu_time/3600} ")
+        #print(f"total CPUhrs = {complete_cpu_time} ")
         np.save(os.path.join(save_dir,"final_time_count.npy"), complete_cpu_time)
 
     # saving coefficient options if another task hasn't done it yet

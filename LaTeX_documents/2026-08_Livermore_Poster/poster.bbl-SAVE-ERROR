@@ -21,55 +21,57 @@
   \datalist[entry]{none/global//global/global/global}
     \entry{Nature_comms}{article}{}{}
       \name{author}{8}{}{%
-        {{hash=1ed58279a63acd16ee178bd4e683baab}{%
+        {{hash=66db209fa8105642ec3c610a20bf85a3}{%
            family={{MacNider}},
            familyi={M\bibinitperiod},
-           given={Brianna},
+           given={B},
            giveni={B\bibinitperiod}}}%
-        {{hash=64162c13a161c88c26048aed05b6dbea}{%
+        {{hash=5a006c369e904c48ae153974c3365e4c}{%
            family={Xiu},
            familyi={X\bibinitperiod},
-           given={Haning},
+           given={H},
            giveni={H\bibinitperiod}}}%
-        {{hash=73b7a846189e082859fcefa4f1fe8955}{%
+        {{hash=1a82aabea3b64f8214e40a582f1141c4}{%
            family={Tamur},
            familyi={T\bibinitperiod},
-           given={Caglar},
+           given={C},
            giveni={C\bibinitperiod}}}%
-        {{hash=81e718542697d8cb9b28022566aa3a73}{%
+        {{hash=49629cef598d050a2a096b6ed69ce942}{%
            family={Qian},
            familyi={Q\bibinitperiod},
-           given={Kai},
+           given={K},
            giveni={K\bibinitperiod}}}%
-        {{hash=9d2c7b12a1e09c5f94c7d9ffbd69c105}{%
+        {{hash=aa6224e7de03b838bf55d6f7d3862f1b}{%
            family={Frankel},
            familyi={F\bibinitperiod},
-           given={Ian},
+           given={I},
            giveni={I\bibinitperiod}}}%
-        {{hash=d2be41b891935dbffffc379905520111}{%
+        {{hash=eff3446f8228379e15092f3c829528a4}{%
            family={Brandy},
            familyi={B\bibinitperiod},
-           given={Maya},
+           given={M},
            giveni={M\bibinitperiod}}}%
-        {{hash=dfb3c94a0bcf26382479a3745d999cb7}{%
+        {{hash=5e070d28d1281b30bcd9313ad2fc3de6}{%
            family={Kim},
            familyi={K\bibinitperiod},
-           given={Hyunsun\bibnamedelima Alicia},
-           giveni={H\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=28cdc0fda321e797c4d711b7c1d9a2ae}{%
+           given={A},
+           giveni={A\bibinitperiod},
+           suffix={H},
+           suffixi={H\bibinitperiod}}}%
+        {{hash=d3049db4cd42ec5ca1a5ca0692838a5e}{%
            family={Boechler},
            familyi={B\bibinitperiod},
-           given={Nicholas},
+           given={N},
            giveni={N\bibinitperiod}}}%
       }
-      \strng{namehash}{0038950947303040265413c4c82ccb40}
-      \strng{fullhash}{0038950947303040265413c4c82ccb40}
-      \strng{fullhashraw}{0038950947303040265413c4c82ccb40}
-      \strng{bibnamehash}{0038950947303040265413c4c82ccb40}
-      \strng{authorbibnamehash}{0038950947303040265413c4c82ccb40}
-      \strng{authornamehash}{0038950947303040265413c4c82ccb40}
-      \strng{authorfullhash}{0038950947303040265413c4c82ccb40}
-      \strng{authorfullhashraw}{0038950947303040265413c4c82ccb40}
+      \strng{namehash}{11a44ecd3aaa33adf1e1a13d320e0249}
+      \strng{fullhash}{11a44ecd3aaa33adf1e1a13d320e0249}
+      \strng{fullhashraw}{11a44ecd3aaa33adf1e1a13d320e0249}
+      \strng{bibnamehash}{11a44ecd3aaa33adf1e1a13d320e0249}
+      \strng{authorbibnamehash}{11a44ecd3aaa33adf1e1a13d320e0249}
+      \strng{authornamehash}{11a44ecd3aaa33adf1e1a13d320e0249}
+      \strng{authorfullhash}{11a44ecd3aaa33adf1e1a13d320e0249}
+      \strng{authorfullhashraw}{11a44ecd3aaa33adf1e1a13d320e0249}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
@@ -97,12 +99,6 @@
       \endverb
       \verb{file}
       \verb PDF:/Users/work/Zotero/storage/SBLXXVW2/MacNider et al. - 2025 - Customizable wave tailoring nonlinear materials enabled by bilevel inverse design.pdf:application/pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://www.nature.com/articles/s41467-025-58630-8
-      \endverb
-      \verb{url}
-      \verb https://www.nature.com/articles/s41467-025-58630-8
       \endverb
     \endentry
   \enddatalist

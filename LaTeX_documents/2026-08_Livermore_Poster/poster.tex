@@ -211,8 +211,8 @@
 \begin{block}{Background and Motivation}
 \vspace{-0.5cm}
 \begin{itemize}
-    \item How can nonlinear wave dynamics be exploited for impact mitigation?
-    \item Polynomial springs in 1D mass spring damper chains can dissipate Kinetic Energy \cite{Nature_comms}.
+    \item How can nonlinear wave dynamics be exploited in a metamaterial design for impact mitigation?
+    \item Polynomial springs in 1D mass spring damper chains can dissipate kinetic energy for a specific impactor \cite{Nature_comms}.
     \begin{center}
     \includegraphics[
         width=0.9\linewidth
@@ -240,10 +240,10 @@
 \begin{center}
 
 \begin{itemize}
-    \item Forumated robust design optimization framework for the Discrete Element Model (DEM)
-    \item Accelerated DEM compute time by porting to Python
-    \item Exploited MC high throughput structure for parallelization
-    \item Enabled multinode computing using SLURM job arrays
+    \item Forumated robust design optimization framework for the Discrete Element Model (DEM).
+    \item Accelerated DEM compute time by porting to Python.
+    \item Exploited MC high throughput structure for parallelization.
+    \item Enabled multinode computing using job arrays on dane.
 \end{itemize}
 
 \end{center}
@@ -275,7 +275,7 @@ KE= \max_{t\geq 0}
 
 \vspace{-1cm}
 
-For the deterministic model with $\bZ = \left[\zeta = 0.01, \frac{M}{M_0}=0.05, \frac{V}{V_0}\right]$, 
+For the impactor conditions $\bZ = \left[\zeta = 0.01, \frac{M}{M_0}=0.05, \frac{V}{V_0-1}\right]$, 
 we formulate the \textbf{Kinetic Energy Ratio} as the cost function,
 
 \vspace{-1.5cm}
@@ -283,44 +283,47 @@ we formulate the \textbf{Kinetic Energy Ratio} as the cost function,
 \begin{equation}\label{KE_ratio_cal}
 J_{\mathrm{det}}(\textcolor{red}{c_2,c_3}) 
 = KE_{\mathrm{ratio}}
-    \left(\textcolor{red}{c_2,c_3}; \textcolor{blue}{\bZ}\right)
+    \left(\textcolor{red}{c_2,c_3}; \bZ\right)
     =
     \frac{
         KE_{\mathrm{non}}
         \left(
             \textcolor{red}{c_2,c_3};
-            \textcolor{blue}{\bZ}
+            \bZ
         \right)
     }{
         KE_{\mathrm{lin}}
         \left(
-            \textcolor{blue}{\bZ}
+            \bZ.
         \right)
     }
 \end{equation}
 
 \vspace{-1.cm}
-When we add uncertainty to viscosity and the non dimensional impact conditions, 
-\vspace{-1.cm}
+
+However, the viscosity, impactor velocity, and mass are uncertain, so we model them as
+%When we add uncertainty to viscosity and the non dimensional impact conditions, 
+
+\vspace{-1.5cm}
 \begin{equation}\label{RV_distribution}
     \textcolor{blue}{\bZ} = \begin{bmatrix} 
-        \textcolor{blue}{\zeta} \\ 
-        \textcolor{blue}{\frac{M}{M_0}} \\ 
-        \textcolor{blue}{\frac{V}{V_0}}
+        \zeta \\ 
+        \frac{M}{M_0} \\ 
+        \frac{V}{V_0}
     \end{bmatrix} \sim \unif \begin{pmatrix}
         [0.005, 0.025] \\ [0.030,0.080] \\ [0.500 ,1.100]
     \end{pmatrix},
 \end{equation}
 
-\vspace{-0.25cm}
-the robust cost function becomes 
+\vspace{-0.5cm}
+the \textbf{cost function for robust optimization} becomes 
 \vspace{-0.25cm}
 \begin{equation}
     J_{\mathrm{rob}}\left(\textcolor{red}{c_2,c_3}\right)= 
     \mathbb{E} \left(KE_{ratio}\left( \textcolor{red}{c_2,c_3}; 
-    \textcolor{blue}{\mathbf{Z}}\right)\right) 
+    \mathbf{Z}\right)\right) 
     + \mathbb{V} 
-    \left(KE_{ratio}\left(\textcolor{red}{c_2,c_3}; \textcolor{blue}{\mathbf{Z}}\right)\right)
+    \left(KE_{ratio}\left(\textcolor{red}{c_2,c_3}; \mathbf{Z}\right)\right).
 \end{equation}
 
 \vspace{-2cm}
@@ -345,7 +348,7 @@ the robust cost function becomes
 % Algorithm / Workflow
 % ------------------------------------------------------------
 \vspace{-1.5cm}
-\begin{block}{Algorithm or Workflow}
+\begin{block}{Algorithm}
 \vspace{-0.5cm}
 
 \begin{center}
@@ -371,16 +374,11 @@ the robust cost function becomes
         Sample $\textcolor{blue}{\bZ}$
     };
 
-    \node[draw,rounded corners,minimum width=5cm,minimum height=1.5cm] (B)
-    [right=2cm of A]
-    {
-        obj func
-    };
 
     \node[draw,rounded corners,minimum width=5cm,minimum height=1.5cm] (C)
-    [right=2cm of B]
+    [right=2cm of A]
     {
-        compute $KE_{\mathrm{ratio}}$
+         $KE_{\mathrm{ratio}}\left(\textcolor{red}{c_2,c_3}; \mathbf{Z}\right)$
     };
 
     \node[draw,rounded corners,minimum width=5cm,minimum height=1.5cm] (D)
@@ -392,20 +390,20 @@ the robust cost function becomes
     \node (out) [right=4cm of D] {};
 
     \draw[->,>=stealth,line width=4pt]
-    (A) -- (B);
+    (A) -- (C);
 
-    \draw[->,>=stealth,line width=4pt]
-    (B) -- (C);
+    % \draw[->,>=stealth,line width=4pt]
+    % (B) -- (C);
 
-    \draw[
-        arrow,
-        rounded corners, dashed
-    ]
-    (C.south)
-        -- ++(0,-2cm)
-        -| node[pos=0.25,below]
-        {\normalsize for robust model with 1000 random samples}
-    (A.south);
+    % \draw[
+    %     arrow,
+    %     rounded corners, dashed
+    % ]
+    % (C.south)
+    %     -- ++(0,-2cm)
+    %     -| node[pos=0.25,below]
+    %     {\normalsize for robust model with 1000 random samples}
+    % (A.south);
 
     \draw[->,>=stealth,line width=4pt]
     (C) -- (D);
@@ -415,7 +413,7 @@ the robust cost function becomes
         rounded corners
     ]
     (D.south)
-        -- ++(0,-4cm)
+        -- ++(0,-2cm)
         -| node[pos=0.25,below]
         {\normalsize
         $\forall(\textcolor{red}{c_2,c_3})\in\mathcal{D}$
@@ -495,7 +493,7 @@ Wall Clock hrs       &   0.015         &   0.004
 
 \end{center}
 \vspace{-0.5cm}
-\small \ast Ran on a local computer with 13 CPU's running in parallel
+\small \ast Executed on a local machine with 48 GB RAM using 13 parallel CPUs (4.51 GHz)
 \vspace{-1cm}
 
 \end{block}
@@ -503,7 +501,7 @@ Wall Clock hrs       &   0.015         &   0.004
 % ------------------------------------------------------------
 % Deterministic Results
 % ------------------------------------------------------------
-\begin{block}{Deterministic Results}
+\begin{block}{Deterministic Optimization Results}
 
 \vspace{-1cm}
 
@@ -654,7 +652,7 @@ highlighting why gradient solvers stuggle to find the global minimum.
 % ------------------------------------------------------------
 \vspace{-1.5cm}
 
-\begin{block}{Monte Carlo Estimate Results}
+\begin{block}{Robust Design Optimization Results}
 \vspace{0.25cm}
 
 From the Law of Large Numbers, we concluded that 1000 realizations of 
@@ -687,12 +685,12 @@ of the $KE_{\mathrm{ratio}}$.
 
 \hline
 
-CPU hrs               &   4.50         &   78                   &   87
+CPU hrs               &   45.5         &   52.5                   &   59
 \\
 
 \hline
 
-Wall Clock hrs       &   3.5         &   6.02                  &    0.93
+Wall Clock hrs       &   3.5          &   5.4                    &    0.75
 \\
 
 \hline
@@ -705,10 +703,10 @@ Wall Clock hrs       &   3.5         &   6.02                  &    0.93
 \vspace{0cm}
 
 
-Computing the $200\times 200$ grid below runs in 3hr and 20 minutes over \textbf{30 nodes and 376 CPUhrs} 
+Computing the $200\times 200$ grid below takes in 3hr and 20 minutes over \textbf{30 nodes (3360 core) and 376 CPUhrs} 
 with a CPU efficieny of 88.1\%.
 
-An equivalent study in series on MATLAB would take an estimate of 65 days. 
+An equivalent study in series would take an estimate of 32 days. 
 % found from cpu hours * 4 since that was the matlab to python speedup for 20x20 grid
 
 \vspace{-0.5cm}
@@ -734,9 +732,10 @@ the optimal coefficient values are all within $\pm 0.35$ for all three metrics.
 \vspace{-0.5cm}
 
 \begin{itemize}
+    \item Add uncertainty to the coefficients for a true stochatistic system.
     \item Expand to a 2D DEM with more random variables, 
-        including impactor size and angle of attack
-    \item Experimental Validation of Impact Distributions
+        including impactor size and angle of attack.
+    \item Experimental Validation of Impact Distributions.
 \end{itemize}
 
 \end{block}
@@ -791,6 +790,12 @@ the optimal coefficient values are all within $\pm 0.35$ for all three metrics.
 % Uncomment the following line once you have a bibliography:
 %
 \printbibliography
+\vspace{-2cm}
+\begin{center}
+    \includegraphics[
+        width=0.25\linewidth
+    ]{figures/PSAAP_IV_logo.png}
+\end{center}
 
 \end{block}
 

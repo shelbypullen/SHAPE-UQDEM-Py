@@ -75,7 +75,7 @@ for j in wanted:
     c3 = np.linspace(1,15,c_nums[j])
 
     # center the color bar at 1
-    norm = colors.TwoSlopeNorm(vmin=np.nanmin(total_KE_avgs[j]), vcenter=1, vmax = np.nanmax(total_KE_avgs[j]))
+    norm = colors.TwoSlopeNorm(vmin=0, vcenter=1, vmax = 2)
 
     # plot the graph
     pcm1 = axs1[i].pcolormesh(c3,c2, total_KE_avgs[j],cmap='RdBu_r',norm=norm)
@@ -93,6 +93,8 @@ for j in wanted:
     i+=1
 cbar1 = fig1.colorbar(pcm1, ax=axs1, location="right", pad=0.01)
 cbar1.set_label("KE Ratio", fontsize=12)
+cbar1.set_ticks([0,0.5,1,1.5,2])
+cbar1.set_ticklabels(["0","0.5","1","1.5","2"])
 file_path_fig1 = os.path.join(figure_dir, "grid_ref_comp.png")
 fig1.savefig(file_path_fig1, dpi=300, bbox_inches='tight')
 
@@ -130,7 +132,7 @@ c2_line = ax3.plot(c_nums**2, opt_c2s,color="blue", label="Optimal C2 Values",
                    linestyle="dashed", marker="o")
 c3_line = ax3.plot(c_nums**2, opt_c3s, color="blue", label="Optimal C3 Values",
                    linestyle="dashed", marker="s")
-ax3.set_title("Change in Optimal Vlaues as Resolution Improves")
+ax3.set_title("Change in Optimal Values as Resolution Improves")
 ax3.set_xlabel('Total Grid Points')
 ax3.set_ylabel("Coefficient Values")
 ax3.set_xscale("log")
