@@ -119,7 +119,7 @@ for i in range(len(c_nums)):
     opt_c2s[i] = c2[c2_idx]
     opt_c3s[i] = c3[c3_idx]
     opt_KEs[i] = [np.nanmin(total_KE_cost[i]), total_KE_avgs[i][c2_idx,c3_idx], total_KE_stds[i][c2_idx,c3_idx]]
-    
+    print(opt_KEs[i])
     c2_idx,c3_idx = np.unravel_index(np.nanargmin(total_KE_avgs[i]), total_KE_avgs[i].shape)      # where best avg KE ratio is
     opt_KE_avgs[i] = [np.nanmin(total_KE_avgs[i]), c2[c2_idx], c3[c3_idx]]
     

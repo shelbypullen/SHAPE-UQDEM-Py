@@ -10,6 +10,9 @@ script_dir = os.path.dirname(__file__)                  # pwd to grab all data i
 figure_dir = os.path.join(script_dir, "Figures")
 os.makedirs(figure_dir, exist_ok=True)
 
+plt.rcParams['font.sans-serif'] = 'Arial'
+plt.rcParams['font.family'] = 'sans-serif'
+
 # load most of the data
 c_nums = np.load(os.path.join(script_dir, "c_nums.npy"))
 total_KE_avgs = np.load(os.path.join(script_dir, "total_KE_avgs.npy"),allow_pickle=True)
@@ -100,13 +103,15 @@ file_path_fig1 = os.path.join(figure_dir, f"KE_avgs_grid_ref_{len(c_nums)}_steps
 fig1.savefig(file_path_fig1, dpi=300, bbox_inches='tight')
 
 # plot the highest resolution 
-fig2, axs2 = plt.subplots(1,1,figsize=(2*(grid_size), 2*(grid_size)))
+fig2, axs2 = plt.subplots(1,1,figsize=(4,3.4))
 norm2 = colors.TwoSlopeNorm(vmin=np.nanmin(total_KE_avgs[-1]), vcenter=1, vmax = np.nanmax(total_KE_avgs[-1]))
 pcm2 = axs2.pcolormesh(c3,c2, total_KE_avgs[-1],cmap='RdBu_r',norm=norm2)
-axs2.set_title(f"{int(c_nums[-1])}x{int(c_nums[-1])}")
-axs2.set_xlabel("C3", fontsize=8)
-axs2.set_ylabel("C2", fontsize=8)
-fig2.colorbar(pcm2, ax=axs2).set_label("KE Ratio", fontsize=6)
+axs2.set_title(f"{int(c_nums[-1])}x{int(c_nums[-1])}", fontsize=15)
+axs2.set_xlabel("$c_3$", fontsize=12)
+axs2.set_ylabel("$c_2$", fontsize=12)
+axs2.set_ylim([-8,-1])
+axs2.set_xlim([1,15])
+fig2.colorbar(pcm2, ax=axs2).set_label("KE Ratio", fontsize=12)
 plt.tight_layout()
 
 # save the plot

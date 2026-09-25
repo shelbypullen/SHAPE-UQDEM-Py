@@ -6,7 +6,7 @@
 % Packages
 % ============================================================
 
-\usepackage[size=custom,width=120,height=90,scale=1.0]{beamerposter}
+\usepackage[size=custom,width=91.44,height=60.96,scale=0.7]{beamerposter}
 
 \usepackage{lmodern}
 \usepackage{lipsum}
@@ -138,13 +138,12 @@
 %Modeling a 1D Discrete Element System with High Performance Computing
 \title{Accelerating Robust Design Optimization of a 1D Discrete Element Model with HPC}
 \author[Your Name]{
-    Shelby Pullen \inst{1}
+    Shelby Pullen
     \and
-    Dr. Boris Kramer \inst{1}
+    Boris Kramer
 }
 
 \institute[Your Institution]{
-    \inst{1}
     Department of Mechanical and Aerospace Engineering,
     University of California San Diego
 }
@@ -167,24 +166,24 @@
         % Left logo
         \node[
             anchor=north west,
-            xshift=2cm,
-            yshift=-1.5cm
+            xshift=1cm,
+            yshift=-0.5cm
         ] at (current page.north west)
         {
             \includegraphics[
-                height=4cm
-            ]{figures/UCSDLogo_JSOE_White.png}
+                height=5cm
+            ]{figures/shape_horizontal_white.eps}
         };
 
         % Right logo
         \node[
             anchor=north east,
-            xshift=-2cm,
-            yshift=-1.5cm
+            xshift=-1cm,
+            yshift=-0.5cm
         ] at (current page.north east)
         {
             \includegraphics[
-                height=6cm
+                height=5cm
             ]{figures/UCSD_logo.png}
         };
 
@@ -207,44 +206,54 @@
 % ------------------------------------------------------------
 % Background and Motivation
 % ------------------------------------------------------------
-\vspace{-1.5cm}
+\vspace{-1cm}
 \begin{block}{Background and Motivation}
 \vspace{-0.5cm}
 \begin{itemize}
     \item How can nonlinear wave dynamics be exploited in a metamaterial design for impact mitigation?
-    \item Polynomial springs in 1D mass spring damper chains can dissipate kinetic energy for a specific impactor \cite{Nature_comms}.
+    \item Polynomial springs in 1D mass spring damper chains can dissipate kinetic energy for a specific impactor better than linear springs \cite{Nature_comms}.
+    \item However, impact conditions are uncertain. Is there a robust nonlinear spring that can work for a range of impact conditions?
+
+    \vspace{-0.25cm}
+
     \begin{center}
     \includegraphics[
-        width=0.9\linewidth
+        width=0.75\linewidth
     ]{figures/1D_DEM_diagram.png}
-
-    \vspace{0cm}
-
-    \includegraphics[
-        width=0.9\linewidth
-    ]{figures/background_KE_transmission.png}
-
     \end{center}
+
     \vspace{-0.5cm}
 
-    \item Is there a robust nonlinear spring that can work for a range of impact conditions?
+    
+    \begin{center}
+        \begin{minipage}{0.4\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{figures/linear_x-t.png}
+        \end{minipage}
+        \hspace{1cm}
+        \begin{minipage}{0.4\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{figures/nonlinear_x-t.png}
+        \end{minipage}
+    \end{center}
+
+
+    \vspace{-1.5cm}
 
 \end{itemize}
-\vspace{0.5cm}
 \end{block}
-\vspace{-1.5cm}
 % ------------------------------------------------------------
 % Research Problem
 % ------------------------------------------------------------
 \begin{alertblock}{Main Contributions}
 \begin{center}
 
-\begin{itemize}
-    \item Forumated robust design optimization framework for the Discrete Element Model (DEM).
+\begin{enumerate}
+    \item Formulated the robust design optimization framework for the Discrete Element Model (DEM).
     \item Accelerated DEM compute time by porting to Python.
     \item Exploited MC high throughput structure for parallelization.
-    \item Enabled multinode computing using job arrays on dane.
-\end{itemize}
+    \item Enabled multinode computing using job arrays on \textbf{Dane}.
+\end{enumerate}
 
 \end{center}
 \end{alertblock}
@@ -252,9 +261,10 @@
 % ------------------------------------------------------------
 % Methods
 % ------------------------------------------------------------
+\vspace{-0.75cm}
 \begin{block}{Robust Design Optimization Problem}
-
 The design variables are the 2nd and 3rd coeffcients of a polynomial spring force equation,
+\vspace{-0.5cm}
 \begin{equation}\label{spring}
 \begin{aligned}
 f_{\mathrm{non}}(x)
@@ -262,23 +272,26 @@ f_{\mathrm{non}}(x)
     + \textcolor{red}{c_2}x^2+\textcolor{red}{c_3}x^3,
 \\[-0.1em]
 f_{\mathrm{lin}}(x)
-    &= c_1x.
+    &= c_1x,
 \end{aligned}
 \end{equation}
 
-\vspace{-1.5cm}
+\vspace{-0.5cm}
+which are found by solving the optimization problem
 
-\begin{equation}\label{KE_calc}
-KE= \max_{t\geq 0}
-       \left(\frac{1}{2}m\dot{x}_N^2\right)
+\vspace{-1.25cm}
+
+\begin{equation}\label{cost}
+    (c_{2}^*, c_{3}^*) 
+    = \arg\min_{(c_2,c_3)\in \mathcal{D}} J\left(\textcolor{red}{c_2, c_3}\right).
 \end{equation}
 
+\vspace{-0.75cm}
+
+For the impactor conditions $\bZ = \left[\zeta = 0.01, \frac{M}{M_0}=0.05, \frac{V}{V_0}=1\right]$, 
+we formulate the \textbf{kinetic energy ratio as the cost function},
+
 \vspace{-1cm}
-
-For the impactor conditions $\bZ = \left[\zeta = 0.01, \frac{M}{M_0}=0.05, \frac{V}{V_0-1}\right]$, 
-we formulate the \textbf{Kinetic Energy Ratio} as the cost function,
-
-\vspace{-1.5cm}
 
 \begin{equation}\label{KE_ratio_cal}
 J_{\mathrm{det}}(\textcolor{red}{c_2,c_3}) 
@@ -294,17 +307,25 @@ J_{\mathrm{det}}(\textcolor{red}{c_2,c_3})
     }{
         KE_{\mathrm{lin}}
         \left(
-            \bZ.
+            \bZ
         \right)
-    }
+    },
 \end{equation}
 
-\vspace{-1.cm}
+\vspace{-1cm}
 
-However, the viscosity, impactor velocity, and mass are uncertain, so we model them as
+\begin{equation}\label{KE_calc}
+\text{where} \quad 
+        KE= \max_{t\geq 0}
+       \left(\frac{1}{2}m\dot{x}_N^2\right).
+\end{equation}
+
+\vspace{-0.5cm}
+
+However, the viscosity, impactor velocity and mass are uncertain, so we model them as random variables:
 %When we add uncertainty to viscosity and the non dimensional impact conditions, 
 
-\vspace{-1.5cm}
+\vspace{-1cm}
 \begin{equation}\label{RV_distribution}
     \textcolor{blue}{\bZ} = \begin{bmatrix} 
         \zeta \\ 
@@ -312,25 +333,18 @@ However, the viscosity, impactor velocity, and mass are uncertain, so we model t
         \frac{V}{V_0}
     \end{bmatrix} \sim \unif \begin{pmatrix}
         [0.005, 0.025] \\ [0.030,0.080] \\ [0.500 ,1.100]
-    \end{pmatrix},
+    \end{pmatrix}.
 \end{equation}
 
 \vspace{-0.5cm}
-the \textbf{cost function for robust optimization} becomes 
-\vspace{-0.25cm}
-\begin{equation}
+The \textbf{cost function for robust optimization} becomes 
+\vspace{-0cm}
+\begin{equation}\label{rob_cost}
     J_{\mathrm{rob}}\left(\textcolor{red}{c_2,c_3}\right)= 
-    \mathbb{E} \left(KE_{ratio}\left( \textcolor{red}{c_2,c_3}; 
-    \mathbf{Z}\right)\right) 
-    + \mathbb{V} 
-    \left(KE_{ratio}\left(\textcolor{red}{c_2,c_3}; \mathbf{Z}\right)\right).
-\end{equation}
-
-\vspace{-2cm}
-
-\begin{equation}\label{Det_cost}
-    (c_{2}^*, c_{3}^*) 
-    = \arg\min_{(c_2,c_3)\in \mathcal{D}} J\left(\textcolor{red}{c_2, c_3}\right)
+    \omega_1 \cdot \mathbb{E} \left[KE_{ratio}
+    \left( \textcolor{red}{c_2,c_3}; \mathbf{Z}\right)\right] 
+    + \omega_2 \cdot \sqrt{\mathbb{V} 
+    \left[KE_{ratio}\left(\textcolor{red}{c_2,c_3}; \mathbf{Z}\right)\right]}.
 \end{equation}
 
 \vspace{0.5cm}
@@ -347,9 +361,9 @@ the \textbf{cost function for robust optimization} becomes
 % ------------------------------------------------------------
 % Algorithm / Workflow
 % ------------------------------------------------------------
-\vspace{-1.5cm}
-\begin{block}{Algorithm}
-\vspace{-0.5cm}
+\vspace{-1cm}
+\begin{block}{Robust Optimization: Function Evaluations}
+\vspace{-0.75cm}
 
 \begin{center}
 
@@ -371,23 +385,23 @@ the \textbf{cost function for robust optimization} becomes
 
     \node[draw,rounded corners,minimum width=5cm,minimum height=1.5cm] (A)
     {
-        Sample $\textcolor{blue}{\bZ}$
+        Sample $\textcolor{blue}{\mathbf{z_k}},\ k=1, \dots, 1000$
     };
 
 
     \node[draw,rounded corners,minimum width=5cm,minimum height=1.5cm] (C)
-    [right=2cm of A]
+    [right=1.5cm of A]
     {
-         $KE_{\mathrm{ratio}}\left(\textcolor{red}{c_2,c_3}; \mathbf{Z}\right)$
+         $KE_{\mathrm{ratio}}\left(\textcolor{red}{c_2,c_3}; \mathbf{z_k}\right)$
     };
 
     \node[draw,rounded corners,minimum width=5cm,minimum height=1.5cm] (D)
-    [right=2cm of C]
+    [right=1.5cm of C]
     {
         $J\left(\textcolor{red}{c_2,c_3}\right)$
     };
 
-    \node (out) [right=4cm of D] {};
+    \node (out) [right=2.5cm of D] {};
 
     \draw[->,>=stealth,line width=4pt]
     (A) -- (C);
@@ -413,10 +427,10 @@ the \textbf{cost function for robust optimization} becomes
         rounded corners
     ]
     (D.south)
-        -- ++(0,-2cm)
+        -- ++(0,-1cm)
         -| node[pos=0.25,below]
         {\normalsize
-        $\forall(\textcolor{red}{c_2,c_3})\in\mathcal{D}$
+        $\forall \ (\textcolor{red}{c_2, c_3})$ in the evaluation grid
         }
     (A.south);
 
@@ -432,22 +446,23 @@ the \textbf{cost function for robust optimization} becomes
 % ------------------------------------------------------------
 % Code Verification
 % ------------------------------------------------------------
-\vspace{-0.5cm}
 \begin{block}{Code Verification}
 
-\vspace{-0.5cm}
+\vspace{-0.75cm}
 
 \begin{center}
-    \begin{minipage}{0.45\linewidth}
+    \begin{minipage}{0.4\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/LoLN_both.png}
     \end{minipage}
-    \hfill
-    \begin{minipage}{0.5\linewidth}
+    \hspace{1cm}
+    \begin{minipage}{0.45\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figures/RK12solver_conv_study.png}
     \end{minipage}
 \end{center}
+
+\vspace{-0.75cm}
 
 \begin{center}
    
@@ -494,7 +509,7 @@ Wall Clock hrs       &   0.015         &   0.004
 \end{center}
 \vspace{-0.5cm}
 \small \ast Executed on a local machine with 48 GB RAM using 13 parallel CPUs (4.51 GHz)
-\vspace{-1cm}
+\vspace{-0.75cm}
 
 \end{block}
 
@@ -508,22 +523,20 @@ Wall Clock hrs       &   0.015         &   0.004
 \begin{center}
 \begin{tikzpicture}
 
-    % ============================================================
+    % ----------
     % MAIN IMAGE
-    % ============================================================
+
     \node[anchor=south west, inner sep=0] (main) at (0,0)
         {\includegraphics[width=1\linewidth]{figures/det_grid_ref_comp.png}};
 
-
-    % ============================================================
+    % ----------
     % FIRST ZOOM
-    % ============================================================
     % ROI position
-    \coordinate (roix) at ($(main.south west)!0.785!(main.south east)$);
+    \coordinate (roix) at ($(main.south west)!0.79!(main.south east)$);
     \coordinate (roiy) at ($(main.south west)!0.375!(main.north west)$);
     \coordinate (roi) at (roix |- roiy);
 
-    \def\roiHalfW{1.2}
+    \def\roiHalfW{1.}
     \def\roiHalfH{0.55}
 
     % Red ROI box
@@ -533,9 +546,9 @@ Wall Clock hrs       &   0.015         &   0.004
         ($(roi)+(\roiHalfW,\roiHalfH)$);
 
     % Zoom lens position
-    \coordinate (lens) at ($(main.south east)+(-7,-5)$);
-    \def\lensHalfW{6.0}
-    \def\lensHalfH{5.0}
+    \coordinate (lens) at ($(main.south east)+(-6,-3.8)$);
+    \def\lensHalfW{4.6}
+    \def\lensHalfH{3.8}
 
     % Connector lines
     \draw[black, dashed]
@@ -556,7 +569,7 @@ Wall Clock hrs       &   0.015         &   0.004
             ($(lens)+(\lensHalfW,\lensHalfH)$);
 
         \node[anchor=center, inner sep=0] at (lens)
-            {\includegraphics[width=0.3\linewidth]
+            {\includegraphics[width=0.315\linewidth]
                 {figures/zoomed_1000x1000_KE_avgs.png}};
     \end{scope}
 
@@ -565,20 +578,17 @@ Wall Clock hrs       &   0.015         &   0.004
         ($(lens)+(-\lensHalfW,-\lensHalfH)$)
         rectangle
         ($(lens)+(\lensHalfW,\lensHalfH)$);
-
-
-    % ============================================================
+        
+    % -----------
     % SECOND ZOOM
-    % ============================================================
-
     % Second ROI position
-    \coordinate (roixB) at ($(main.south west)!0.685!(main.south east)$);
+    \coordinate (roixB) at ($(main.south west)!0.69!(main.south east)$);
     \coordinate (roiyB) at ($(main.south west)!0.65!(main.north west)$);
     \coordinate (roiB) at (roixB |- roiyB);
 
     % Second ROI dimensions
-    \def\roiBHalfW{0.8}
-    \def\roiBHalfH{1.15}
+    \def\roiBHalfW{0.7}
+    \def\roiBHalfH{1.}
 
     % Second ROI box
     \draw[black, thick]
@@ -587,11 +597,11 @@ Wall Clock hrs       &   0.015         &   0.004
         ($(roiB)+(\roiBHalfW,\roiBHalfH)$);
 
     % Second zoom lens position
-    \coordinate (lensB) at ($(main.south west)+(7,-5)$);
+    \coordinate (lensB) at ($(main.south west)+(5.25,-3.8)$);
 
     % Keep same lens dimensions as first zoom
-    \def\lensBHalfW{6.0}
-    \def\lensBHalfH{5.0}
+    \def\lensBHalfW{4.6}
+    \def\lensBHalfH{3.8}
 
     % Connector lines
     \draw[black, dashed]
@@ -612,7 +622,7 @@ Wall Clock hrs       &   0.015         &   0.004
             ($(lensB)+(\lensBHalfW,\lensBHalfH)$);
 
         \node[anchor=center, inner sep=0] at (lensB)
-            {\includegraphics[width=0.3\linewidth]
+            {\includegraphics[width=0.315\linewidth]
                 {figures/zoomed_top_KE_avgs.png}};
     \end{scope}
 
@@ -626,12 +636,12 @@ Wall Clock hrs       &   0.015         &   0.004
 \end{center}
 
 \vspace{-0.75cm}
-The high resolution image reveals the highly nonlinear domain, 
+The high-resolution image reveals the highly nonlinear domain, 
 highlighting why gradient solvers stuggle to find the global minimum.
 \vspace{-0.75cm}
 \begin{center}
     \includegraphics[
-        width=1\linewidth
+        width=0.9\linewidth
     ]{figures/optimal_coeff_values_grid_ref.png}
 \end{center}
 
@@ -650,13 +660,13 @@ highlighting why gradient solvers stuggle to find the global minimum.
 % ------------------------------------------------------------
 % Results Figure
 % ------------------------------------------------------------
-\vspace{-1.5cm}
+\vspace{-1cm}
 
 \begin{block}{Robust Design Optimization Results}
-\vspace{0.25cm}
+\vspace{0cm}
 
 From the Law of Large Numbers, we concluded that 1000 realizations of 
-$\bZ$ would give us an accurate estimate of the mean and standard deviation
+$\bZ$ accurately estimates the mean and standard deviation
 of the $KE_{\mathrm{ratio}}$. 
 
 \vspace{-0.5cm}
@@ -666,6 +676,8 @@ of the $KE_{\mathrm{ratio}}$.
         width=1\linewidth
     ]{figures/rob_20x20_KE_avgs.png}
 \end{center}
+
+\vspace{-0.75cm}
 
 \begin{center}
    
@@ -703,10 +715,10 @@ Wall Clock hrs       &   3.5          &   5.4                    &    0.75
 \vspace{0cm}
 
 
-Computing the $200\times 200$ grid below takes in 3hr and 20 minutes over \textbf{30 nodes (3360 core) and 376 CPUhrs} 
-with a CPU efficieny of 88.1\%.
+Computing the $200\times 200$ grid below takes 3h20min on \textbf{Dane with 30 nodes (3360 cores) and 7443 CPUh} 
+with a CPU efficiency over 80\% on all nodes.
 
-An equivalent study in series would take an estimate of 32 days. 
+An equivalent study in series would take approximately 310 days. 
 % found from cpu hours * 4 since that was the matlab to python speedup for 20x20 grid
 
 \vspace{-0.5cm}
@@ -719,27 +731,27 @@ An equivalent study in series would take an estimate of 32 days.
 
 \vspace{-1cm}
 
-Unlike the deterministic model, the robut solution does not vary with the grid refinement:
-the optimal coefficient values are all within $\pm 0.35$ for all three metrics.
+Unlike the deterministic model, the optimal spring coefficients do not change with the grid refinement,
+indicating that the robustness smooths out the strong nonlinearities in the domain.
 
 \end{block}
 
 % ------------------------------------------------------------
 % Summary
 % ------------------------------------------------------------
-
-\begin{block}{Summary and Future Work}
+\vspace{-0.75cm}
+\begin{block}{Future Work}
 \vspace{-0.5cm}
 
 \begin{itemize}
     \item Add uncertainty to the coefficients for a true stochatistic system.
     \item Expand to a 2D DEM with more random variables, 
         including impactor size and angle of attack.
-    \item Experimental Validation of Impact Distributions.
+    \item Experimental validation of impact distributions.
 \end{itemize}
 
 \end{block}
-\vspace{-1.5cm}
+\vspace{-1cm}
 
 % ------------------------------------------------------------
 % QR Code
@@ -770,7 +782,7 @@ the optimal coefficient values are all within $\pm 0.35$ for all three metrics.
 % ------------------------------------------------------------
 
 \begin{block}{Acknowledgements}
-\vspace{-0.5cm}
+\vspace{-0.25cm}
 
 \textbf{
     This work was supported by the Department of Energy, 
@@ -779,7 +791,7 @@ the optimal coefficient values are all within $\pm 0.35$ for all three metrics.
 }
 
 \end{block}
-\vspace{-1cm}
+\vspace{-0.75cm}
 
 % ------------------------------------------------------------
 % References
@@ -788,9 +800,9 @@ the optimal coefficient values are all within $\pm 0.35$ for all three metrics.
 \begin{block}{References}
 
 % Uncomment the following line once you have a bibliography:
-%
+\vspace{-0.5cm}
 \printbibliography
-\vspace{-2cm}
+\vspace{-1cm}
 \begin{center}
     \includegraphics[
         width=0.25\linewidth
