@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.integrate import solve_ivp
+import os
 import EOM
 
 def objective(non_spring_coeff_info, stochastic_info, n_samples):
@@ -134,21 +135,5 @@ def objective(non_spring_coeff_info, stochastic_info, n_samples):
 
         KE_ratios[k] = max_KE_non/max_KE_lin
 
-    ############################################################
-    # Calculate Cost Function
-    ############################################################
-    KE_avg = np.average(KE_ratios)
-    
-    # only taking upper standard deviation into account because thats what we want to minimize
-    KE_upper_vals = KE_ratios[KE_ratios > KE_avg]
-    KE_std = 0
-    if n_samples >1:
-        KE_std = np.std(KE_upper_vals, ddof=1)
-
-    if KE_std >0:
-        J_function = KE_avg + KE_std
-    else:
-        J_function = KE_avg
-
-    return [J_function, KE_avg, KE_std, KE_ratios]
+    return KE_ratios
 
