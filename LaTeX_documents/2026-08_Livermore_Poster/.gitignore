@@ -8,7 +8,6 @@
 *.fmt
 *.out
 *.fdb_latexmk
-poster.pdf
 *.synctex.gz
 *.synctex(busy)
 poster.nav
