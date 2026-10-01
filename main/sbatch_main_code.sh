@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=20_by_20_DEM_MC
+#SBATCH --job-name=200_by_200_n=2000
 #SBATCH --output=results_main_%A_%a.out
 #SBATCH --error=results_main_%A_%a.err
 
@@ -10,7 +10,7 @@
 #SBATCH --ntasks-per-node=112
 
 #SBATCH --mem=150G
-#SBATCH --time=08:00:00
+#SBATCH --time=06:00:00
 
 #SBATCH --partition=pbatch
 #SBATCH --mail-type=BEGIN,END

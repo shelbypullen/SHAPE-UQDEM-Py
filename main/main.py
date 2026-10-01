@@ -2,7 +2,7 @@ import multiprocessing
 multiprocessing.set_start_method("fork")
 from multiprocessing import Pool            # parallelizing tool
 import numpy as np
-import objective_MC_parallel                            # importing objective function file
+import main.objective as objective                            # importing objective function file
 import os                                   # to get number of cpus
 import time                                 # to track computational time
 from datetime import datetime
@@ -45,7 +45,7 @@ def run_obj(i, j, c2, c3, n_samples_slice):
 
     # running the objective function
     non_spring_info = [c2,c3]
-    KE_ratios = objective_MC_parallel.objective(non_spring_info, stochastic_info, n_samples_slice)
+    KE_ratios = objective.objective(non_spring_info, stochastic_info, n_samples_slice)
 
     toc1 = time.process_time()
     cpu_time = toc1 - tic1
@@ -93,7 +93,7 @@ if __name__ == '__main__':
         print("pulling previous results from given directory")
     else:
         # first see if another directory from another day with same job ID (needed for big jobs)
-        if job_id > 100:                                        # not the default job id
+        if job_id > 1000                                        # not the default job id
             existing = glob.glob(os.path.join(script_dir, f"results_*_job-{job_id}"))
             existing = [dir for dir in existing in os.path.isdir(dir)]
 
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 10
+    n_samples = 2000
 
     # generate RV realizations
     seed = 13510249453205735037716673912871003318               # seed for random number replication
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # Defining C2 C3 grid coarseness
     ############################################################
     refinement_factor = (500/20)**(1/3)                         # so max c_nums = 500 after 4 steps (i=0:3)
-    coarse = 10
+    coarse = 200
     n_ref_steps = 1
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
