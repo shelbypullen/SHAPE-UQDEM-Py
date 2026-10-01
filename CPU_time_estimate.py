@@ -27,12 +27,12 @@ def estimate(n_cores, n_nodes, grid_length_start, ref_factor, n_grids, n_MCs, sa
 
 # new run info 
 n_cores = 112                       # per node
-n_nodes = 15
+n_nodes = 30
 grid_length_start = 200             # like c_num - number in linspace discretizing coeff array
 
 ref_factor = 1.38                   # multiplication factor that the grid length increases by each time
 n_grids = 1                         # number of different grids - set as one if no grid refinement
-n_MCs = 1000                           # number of Monte carlo samples 
+n_MCs = 2000                           # number of Monte carlo samples 
 safety_factor = 1.2                 # can change depending on how sure you are about the function call time
 
 # call function - it will print out times
