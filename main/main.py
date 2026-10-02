@@ -63,9 +63,9 @@ def init_worker(shared_data):
 ############################################################
 def get_n_cores():
     n_cores = os.environ.get("SLURM_NTASKS")                # cores from SLURM (HPC)
-    task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',1))  # which nodal task is it defaults to 0 for 1st index
-    n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",2))# how many nodes/tasks are there defaults to 1 for 1 job/node
-    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",1))
+    task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',0))  # which nodal task is it defaults to 0 for 1st index
+    n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",1))# how many nodes/tasks are there defaults to 1 for 1 job/node
+    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",12345))
     
     if n_cores is not None:                                 # if this is an HPC Job, use number of cpus from SLURM
         return int(n_cores), task_id, n_jobs, job_id
@@ -95,7 +95,7 @@ if __name__ == '__main__':
         # first see if another directory from another day with same job ID (needed for big jobs)
         if job_id > 1000:                                        # not the default job id
             existing = glob.glob(os.path.join(script_dir, f"results_*_job-{job_id}"))
-            existing = [dir for dir in existing in os.path.isdir(dir)]
+            existing = [dir for dir in existing if os.path.isdir(dir)]
 
             if existing:                                        # if there exists a previous directory for this job
                 save_dir = max(existing, key=os.path.getmtime)
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 2000
+    n_samples = 10
 
     # generate RV realizations
     seed = 13510249453205735037716673912871003318               # seed for random number replication
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # Defining C2 C3 grid coarseness
     ############################################################
     refinement_factor = (500/20)**(1/3)                         # so max c_nums = 500 after 4 steps (i=0:3)
-    coarse = 200
+    coarse = 10
     n_ref_steps = 1
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
@@ -213,7 +213,6 @@ if __name__ == '__main__':
 
             #saving results
             for i, j, ratio, cpu_time in results:       # getting the results
-                print(ratio)
                 KE_ratios[i,j,n_samples_indices] = ratio
                 cpu_times[i,j]  = cpu_time
 
