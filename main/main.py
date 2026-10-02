@@ -2,7 +2,7 @@ import multiprocessing
 multiprocessing.set_start_method("fork")
 from multiprocessing import Pool            # parallelizing tool
 import numpy as np
-import main.objective as objective                            # importing objective function file
+import objective                            # importing objective function file
 import os                                   # to get number of cpus
 import time                                 # to track computational time
 from datetime import datetime
@@ -93,7 +93,7 @@ if __name__ == '__main__':
         print("pulling previous results from given directory")
     else:
         # first see if another directory from another day with same job ID (needed for big jobs)
-        if job_id > 1000                                        # not the default job id
+        if job_id > 1000:                                        # not the default job id
             existing = glob.glob(os.path.join(script_dir, f"results_*_job-{job_id}"))
             existing = [dir for dir in existing in os.path.isdir(dir)]
 

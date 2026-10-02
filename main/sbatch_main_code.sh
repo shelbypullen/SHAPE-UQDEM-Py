@@ -9,7 +9,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=112
 
-#SBATCH --mem=150G
+#SBATCH --mem=200G
 #SBATCH --time=06:00:00
 
 #SBATCH --partition=pbatch
@@ -23,6 +23,6 @@ echo "Cores: $SLURM_NTASKS"
 echo "Job ID: $SLURM_ARRAY_JOB_ID"
 echo "Task ID: $SLURM_ARRAY_TASK_ID"
 
-python3 200main_grid_rob.py #include directory name as second arg if previously failed
+python3 main.py #include directory name as second arg if previously failed
 
 
