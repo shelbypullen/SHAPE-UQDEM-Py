@@ -118,7 +118,7 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 10
+    n_samples = 2000
 
     # generate RV realizations
     seed = 13510249453205735037716673912871003318               # seed for random number replication
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # Defining C2 C3 grid coarseness
     ############################################################
     refinement_factor = (500/20)**(1/3)                         # so max c_nums = 500 after 4 steps (i=0:3)
-    coarse = 10
+    coarse = 200
     n_ref_steps = 1
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
