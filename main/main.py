@@ -16,7 +16,7 @@ built for HPC but can handle running on personal computer
 ############################################################
 # Defining function for parallelization that each CPU will run
 ############################################################
-def run_obj(i, j, c2, c3, n_samples_slice):
+def run_obj(i, j, c2, alpha, c3, beta, n_samples_slice):
     """
     This is what is passed to each node to run in parallel and the with Pool () 
         distributes the objective function to run on each cpu
@@ -39,8 +39,10 @@ def run_obj(i, j, c2, c3, n_samples_slice):
     """
     tic1 = time.process_time()
 
+
+
     # if negative strain energy return with all nan
-    if c3 < 2/9*c2**2:
+    if c3 -beta < 2/9*(c2-alpha)**2:
         return i, j, np.full(n_samples_slice, np.nan), 0
 
     # running the objective function
@@ -65,7 +67,7 @@ def get_n_cores():
     n_cores = os.environ.get("SLURM_NTASKS")                # cores from SLURM (HPC)
     task_id = int(os.environ.get('SLURM_ARRAY_TASK_ID',0))  # which nodal task is it defaults to 0 for 1st index
     n_jobs = int(os.environ.get("SLURM_ARRAY_TASK_COUNT",1))# how many nodes/tasks are there defaults to 1 for 1 job/node
-    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",12345))
+    job_id = int(os.environ.get("SLURM_ARRAY_JOB_ID",1))
     
     if n_cores is not None:                                 # if this is an HPC Job, use number of cpus from SLURM
         return int(n_cores), task_id, n_jobs, job_id
@@ -118,7 +120,7 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 2000
+    n_samples = 10
 
     # generate RV realizations
     seed = 13510249453205735037716673912871003318               # seed for random number replication
@@ -139,10 +141,25 @@ if __name__ == '__main__':
     Z_up = 0.015+0.01
     Z_low = 0.015-0.01
     zeta_sweep_tot = rng.uniform(Z_low,Z_up,n_samples)          # varing inputs
-    zeta_sweep = np.array_split(zeta_sweep_tot,n_jobs)[task_id] # split into task arrays for multinode
-    #zeta_sweep = [0.01]                                        # single input
+    zeta_slice = np.array_split(zeta_sweep_tot,n_jobs)[task_id] # split into task arrays for multinode
+    #zeta_slice = [0.01]                                        # single input
+
+    # Coeff random Variables centered at 0
+    alpha = 0.05
+    beta  = 0.05
+
+    np.save(os.path.join(save_dir,"coeff_ranges.npy"),[alpha, beta])
+
+    c2_rv_tot = rng.uniform(1-alpha, 1+alpha, n_samples)
+    c2_rv_slice = np.array_split(c2_rv_tot,n_jobs)[task_id]
+
+    c3_rv_tot = rng.uniform(1-beta,1+beta,n_samples)
+    c3_rv_slice = np.array_split(c3_rv_tot,n_jobs)[task_id]
+
+    print(c2_rv_tot)
+    print(c3_rv_tot)
     
-    stochastic_info = [M_normal, V_normal, zeta_sweep]
+    stochastic_info = [M_normal, V_normal, zeta_slice, c2_rv_slice, c3_rv_slice]
     n_samples_indices = np.array_split(np.arange(n_samples), n_jobs)[task_id]
     n_samples_slice = len(n_samples_indices)
 
@@ -153,7 +170,7 @@ if __name__ == '__main__':
     # Defining C2 C3 grid coarseness
     ############################################################
     refinement_factor = (500/20)**(1/3)                         # so max c_nums = 500 after 4 steps (i=0:3)
-    coarse = 200
+    coarse = 10
     n_ref_steps = 1
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
@@ -204,7 +221,7 @@ if __name__ == '__main__':
             # Running parallel job
             ############################################################
             tasks = [                                                   # defining what is being parallelized over
-                (i, j, c2_sweep[i], c3_sweep[j], n_samples_slice)
+                (i, j, c2_sweep[i], alpha, c3_sweep[j], beta, n_samples_slice)
                 for i in range(c_num)
                 for j in range(c_num)
             ]

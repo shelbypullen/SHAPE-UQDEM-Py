@@ -38,11 +38,12 @@ def objective(non_spring_coeff_info, stochastic_info, n_samples):
     m = 1
 
     # nonlinear spring coeffs
+    r2_rv      = stochastic_info[3]
+    r3_rv      = stochastic_info[4]
+    
     c1 = 1
     c2 = non_spring_coeff_info[0]
     c3 = non_spring_coeff_info[1]
-
-    non_spring_info = [c1,c2,c3]
 
     lin_spring_info = [c1,0,0]
 
@@ -73,10 +74,17 @@ def objective(non_spring_coeff_info, stochastic_info, n_samples):
         ############################################################
         # Materials
         ############################################################
-        # Random Variables
+        # Impactor and material Random Variables
         alpha = M_normal[k]
         beta = V_normal[k]
         zeta = zeta_sweep[k]
+
+        # Coefficent Random Variables
+        c2_rv = r2_rv[k] * c2
+        c3_rv = r3_rv[k] * c3
+
+        # Random Coefficients
+        non_spring_info = [c1,c2_rv,c3_rv]
 
         # Impactor Properties
         V0_impactor = 1

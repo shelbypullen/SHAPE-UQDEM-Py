@@ -40,20 +40,28 @@ n_jobs = len(task_files)                                    # need number of job
 
 ratios_slice = [np.load(os.path.join(latest_results_dir, f"KE_ratios_slice_{task_id}.npy"), allow_pickle=True) 
                 for task_id in range(n_jobs)]
-
-n_samples = ratios_slice[0][0].shape[2]                     # need number of MC samples
+if not ratios_slice:
+    KE_ratios_full = np.load(os.path.join(latest_results_dir,f"total_KE_ratios.npy"), allow_pickle=True)[0]
+    print(f"KE_ratio size = {np.size(KE_ratios_full)}, {np.size(KE_ratios_full)[0]}")
+    n_samples = KE_ratios_full.shape[2]
+else:
+    n_samples = ratios_slice[0][0].shape[2]                     # need number of MC samples
 n_per_task = [np.array_split(np.arange(n_samples), n_jobs)[task_id]
                       for task_id in range(n_jobs)]
-
+#print(np.size(KE_ratios_full[0]))
 opt_c2s = np.zeros(n_ref_steps)
 opt_c3s = np.zeros(n_ref_steps)
 opt_KEs = np.zeros((n_ref_steps, 3))                                  # each row = [opt_cost, opt KE_avg, opt_std]
+
+# loading alpha and beta from C2 = E(c2) +/- alpha etc. 
+[alpha,beta] = np.load(os.path.join(latest_results_dir,"coeff_ranges.npy"),allow_pickle=True)
 
 ############################################################
 # stitching everything together
 ############################################################
 for k in range(n_ref_steps):
     c_num = int(c_nums[k])
+    print(f"c_num = {c_num}")
     c2_sweep = np.linspace(-8,-1,c_num)
     c3_sweep = np.linspace(1,15,c_num)
 
@@ -61,7 +69,8 @@ for k in range(n_ref_steps):
     KE_cost_full   = np.full((c_num, c_num), np.nan)
     KE_avgs_full   = np.full((c_num, c_num), np.nan)
     KE_stds_full   = np.full((c_num, c_num), np.nan)
-    KE_ratios_full = np.full((c_num, c_num, n_samples), np.nan)
+    if KE_ratios_full is None:
+        KE_ratios_full = np.full((c_num, c_num, n_samples), np.nan)
 
     # stitching
     for task_id in range(n_jobs):
@@ -72,7 +81,7 @@ for k in range(n_ref_steps):
             c2 = c2_sweep[i]
             c3 = c3_sweep[j]
 
-            if c3 < 2/9*c2**2:
+            if c3 - beta < 2/9*(c2 - alpha)**2:
                 # KE_avgs = np.nan
                 # KE_stds = np.nan
                 # KE_cost = np.nan
@@ -112,7 +121,7 @@ for k in range(n_ref_steps):
             else:
                 KE_cost_full[i,j] = KE_avgs_full[i,j]
 
-    #appending
+    # appending
     total_KE_cost[k] = KE_cost_full
     total_KE_avgs[k] = KE_avgs_full
     total_KE_stds[k] = KE_stds_full
@@ -155,3 +164,4 @@ for k in range(n_jobs):
 toc = time.perf_counter()
 print(f"runtime = {toc-tic}")
     
+plt.show()
