@@ -42,7 +42,7 @@ ratios_slice = [np.load(os.path.join(latest_results_dir, f"KE_ratios_slice_{task
                 for task_id in range(n_jobs)]
 if not ratios_slice:
     KE_ratios_full = np.load(os.path.join(latest_results_dir,f"total_KE_ratios.npy"), allow_pickle=True)[0]
-    print(f"KE_ratio size = {np.size(KE_ratios_full)}, {np.size(KE_ratios_full)[0]}")
+    print(f"KE_ratio size = {np.size(KE_ratios_full)}")
     n_samples = KE_ratios_full.shape[2]
 else:
     n_samples = ratios_slice[0][0].shape[2]                     # need number of MC samples
@@ -81,7 +81,7 @@ for k in range(n_ref_steps):
             c2 = c2_sweep[i]
             c3 = c3_sweep[j]
 
-            if c3 - beta < 2/9*(c2 - alpha)**2:
+            if c3 -beta*c3 < 2/9*(c2+alpha*c2)**2:
                 # KE_avgs = np.nan
                 # KE_stds = np.nan
                 # KE_cost = np.nan
@@ -164,4 +164,3 @@ for k in range(n_jobs):
 toc = time.perf_counter()
 print(f"runtime = {toc-tic}")
     
-plt.show()

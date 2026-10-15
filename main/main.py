@@ -42,7 +42,7 @@ def run_obj(i, j, c2, alpha, c3, beta, n_samples_slice):
 
 
     # if negative strain energy return with all nan
-    if c3 -beta < 2/9*(c2-alpha)**2:
+    if c3 -beta*c3 < 2/9*(c2+alpha*c2)**2:
         return i, j, np.full(n_samples_slice, np.nan), 0
 
     # running the objective function
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     # Defining C2 C3 grid coarseness
     ############################################################
     refinement_factor = (500/20)**(1/3)                         # so max c_nums = 500 after 4 steps (i=0:3)
-    coarse = 10
+    coarse = 20
     n_ref_steps = 1
     c_nums = [int(np.round(coarse*(refinement_factor**i))) 
               for i in range(n_ref_steps)]  
@@ -258,7 +258,7 @@ if __name__ == '__main__':
     else:
         np.save(os.path.join(save_dir, "total_KE_ratios.npy"), total_KE_ratios)
         complete_cpu_time = np.sum(total_time)
-        print(f"total CPUhrs = {complete_cpu_time}")
+        print(f"total CPUhrs = {np.sum(complete_cpu_time)}")
         np.save(os.path.join(save_dir,"final_time_count.npy"), complete_cpu_time)
 
     # saving coefficient options if another task hasn't done it yet

@@ -71,7 +71,7 @@ if len(c_nums) > 1:
 
         # plotting boundaries of computation
         axs1[i].set_xlim([1,15])
-        axs1[i].set_ylim([-10,-1])
+        axs1[i].set_ylim([-8,-1])
 
     # save the figure
     plt.tight_layout()
