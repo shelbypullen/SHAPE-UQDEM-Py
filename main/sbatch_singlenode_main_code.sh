@@ -1,0 +1,28 @@
+#!/bin/bash
+#SBATCH --job-name=200_by_200_n=2000
+#SBATCH --output=results_main_%j.out
+#SBATCH --error=results_main_%j.err
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=112
+#SBATCH --cpus-per-task=1
+#SBATCH --ntasks-per-node=112
+
+#SBATCH --mem=200G
+#SBATCH --time=01:00:00
+
+#SBATCH --partition=pbatch
+#SBATCH --mail-type=BEGIN,END
+#SBATCH --mail-user=spullen@ucsd.edu
+
+cd $SLURM_SUBMIT_DIR
+
+echo "Python: $(which python3)" 
+echo "Cores: $SLURM_NTASKS"
+echo "Job ID: $SLURM_ARRAY_JOB_ID"
+echo "Task ID: $SLURM_ARRAY_TASK_ID"
+
+python3 main.py #include directory name as second arg if previously failed
+
+
+
