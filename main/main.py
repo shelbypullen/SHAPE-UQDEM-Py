@@ -120,7 +120,7 @@ if __name__ == '__main__':
     ############################################################
     # random input space defined - CAN CHANGE n_samples
     ############################################################
-    n_samples = 10
+    n_samples = 1000
 
     # generate RV realizations
     seed = 13510249453205735037716673912871003318               # seed for random number replication
