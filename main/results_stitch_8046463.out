@@ -1,0 +1,8 @@
+Python: /usr/tce/bin/python3
+results directory:  /g/g17/pullen3/SHAPE-UQDEM-Py/main/results_2026-10-15_job-1
+KE_ratio size = 400000
+c_num = 20
+All files saved
+refinement level 0: c2 = -4.3158, c3 = 6.8947, 
+KE_cost = 0.9127, KE_avg = 0.3477, KE_std = 0.1293
+runtime = 0.13619347708299756
