@@ -69,7 +69,9 @@ for k in range(n_ref_steps):
     KE_cost_full   = np.full((c_num, c_num), np.nan)
     KE_avgs_full   = np.full((c_num, c_num), np.nan)
     KE_stds_full   = np.full((c_num, c_num), np.nan)
-    if KE_ratios_full is None:
+    try:
+        KE_ratios_full
+    except NameError:
         KE_ratios_full = np.full((c_num, c_num, n_samples), np.nan)
 
     # stitching
