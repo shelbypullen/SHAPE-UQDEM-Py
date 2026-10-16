@@ -2,6 +2,7 @@ grid_refinement/Uncertain_Parameters/failed-or-old
 old
 grid_refinement/deterministic_results/failed-or-old/
 **/total_KE_ratios.npz
+**/total_KE_ratios.npy
 **/outs/
 main/*_job-1
 CPU_time_estimate.py

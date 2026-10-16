@@ -88,6 +88,8 @@ norm2 = colors.TwoSlopeNorm(vmin=0, vcenter=1, vmax = 2)
 print(f"avgs = {np.nanmin(total_KE_avgs[-1])}, {np.nanmax(total_KE_avgs[-1])}")
 print(f"stds = {np.nanmin(total_KE_stds[-1])}, {np.nanmax(total_KE_stds[-1])}")
 print(f"cost = {np.nanmin(total_KE_cost[-1])}, {np.nanmax(total_KE_cost[-1])}")
+
+# avgs plot
 pcm2 = axs2[0].pcolormesh(c3s,c2s, total_KE_avgs[-1],cmap='RdBu_r', norm=norm2)#,norm=norm2)
 axs2[0].set_title("Expectation of $f(c_2, c_3)$")
 axs2[0].set_xlabel("$c_3$", fontsize=12)
@@ -107,6 +109,7 @@ axs2[0].add_patch(circle0)
 axs2[0].set_xlim([1,15])
 axs2[0].set_ylim([-8,-1])
 
+# std plot
 norm3 = colors.TwoSlopeNorm(vmin=0, vcenter=0.3, vmax = 0.6)
 pcm3 = axs2[1].pcolormesh(c3s,c2s, total_KE_stds[-1],cmap='RdBu_r',norm=norm3)
 axs2[1].set_title("Standard Deviation of $f(c_2, c_3)$")
@@ -128,6 +131,7 @@ axs2[1].add_patch(circle1)
 axs2[1].set_xlim([1,15])
 axs2[1].set_ylim([-8,-1])
 
+# cost plot
 norm4 = colors.TwoSlopeNorm(vmin=0, vcenter=1, vmax = 2)
 
 pcm2 = axs2[2].pcolormesh(c3s,c2s, total_KE_cost[-1],cmap='RdBu_r',norm=norm4)
